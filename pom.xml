@@ -86,19 +86,6 @@
   <build>
     <plugins>
 
-      <plugin>
-        <groupId>org.springframework.experimental</groupId>
-        <artifactId>spring-aot-maven-plugin</artifactId>
-        <version>0.12.0</version>
-        <executions>
-          <execution>
-            <id>generate</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
 
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -134,7 +121,28 @@
       </plugin>
     </plugins>
   </build>
-
+  <profiles>
+    <profile>
+      <id>pre-native</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.springframework.experimental</groupId>
+            <artifactId>spring-aot-maven-plugin</artifactId>
+            <version>0.12.1</version>
+            <executions>
+              <execution>
+                <id>generate</id>
+                <goals>
+                  <goal>generate</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
