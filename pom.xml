@@ -121,7 +121,7 @@
               <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
               <BP_JVM_VERSION>17</BP_JVM_VERSION>
             </env>
-            <name>showpune/${project.name}-nativedock:${project.version}</name>
+            <name>showpune/${project.name}-native:${project.version}</name>
           </image>
         </configuration>
         <executions>
