@@ -15,21 +15,14 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
-import org.springframework.aop.framework.Advised;
-import org.springframework.core.DecoratingProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.Repository;
-import org.springframework.nativex.hint.JdkProxyHint;
-import org.springframework.samples.petclinic.vet.VetRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.interceptor.TransactionalProxy;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -48,7 +41,6 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Michael Isvy
  */
 @Controller
-@JdkProxyHint(types = {OwnerRepository.class, Repository.class, TransactionalProxy.class, Advised.class, DecoratingProxy.class, Serializable.class})
 class OwnerController {
 
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";

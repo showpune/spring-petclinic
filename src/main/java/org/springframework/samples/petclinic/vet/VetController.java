@@ -15,18 +15,12 @@
  */
 package org.springframework.samples.petclinic.vet;
 
-import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.aop.framework.Advised;
-import org.springframework.core.DecoratingProxy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.Repository;
-import org.springframework.nativex.hint.JdkProxyHint;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.interceptor.TransactionalProxy;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +33,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Arjen Poutsma
  */
 @Controller
-@JdkProxyHint(types = {VetRepository.class, Repository.class, TransactionalProxy.class, Advised.class, DecoratingProxy.class, Serializable.class})
 class VetController {
 
 	private final VetRepository vetRepository;
