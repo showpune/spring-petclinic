@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.0-RC1</version>
+    <version>3.0.0-SNAPSHOT</version>
   </parent>
   <name>petclinic</name>
 
@@ -121,7 +121,7 @@
               <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
               <BP_JVM_VERSION>17</BP_JVM_VERSION>
             </env>
-            <name>showpune/${project.name}-native:${project.version}</name>
+            <name>showpune/${project.name}-native:${project.parent.version}</name>
           </image>
         </configuration>
         <executions>
@@ -155,6 +155,11 @@
 
   <repositories>
     <repository>
+      <id>spring-snapshot</id>
+      <name>Spring snapshot</name>
+      <url>https://repo.spring.io/snapshot</url>
+    </repository>
+    <repository>
       <id>spring-release</id>
       <name>Spring release</name>
       <url>https://repo.spring.io/release</url>
@@ -163,13 +168,15 @@
       <id>spring-milestones</id>
       <name>Spring Milestones</name>
       <url>https://repo.spring.io/milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
     </repository>
   </repositories>
 
   <pluginRepositories>
+    <pluginRepository>
+      <id>spring-snapshot</id>
+      <name>Spring snapshot</name>
+      <url>https://repo.spring.io/snapshot</url>
+    </pluginRepository>
     <pluginRepository>
       <id>spring-release</id>
       <name>Spring release</name>
