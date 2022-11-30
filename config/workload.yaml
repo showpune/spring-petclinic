@@ -1,13 +1,23 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: tanzu-java-web-app
+  name: petclinic
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    app.kubernetes.io/part-of: tanzu-java-web-app
+    app.kubernetes.io/part-of: petclinic
 spec:
+  build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
   source:
     git:
-      url: https://github.com/showpune/tanzu10-java-web-app.git
+      url: https://github.com/showpune/spring-petclinic.git
       ref:
-        branch: master
+        branch: springboot3
+  serviceClaims:
+    - name: mysql
+      ref:
+        apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+        kind: ResourceClaim
+        name: mysql-claim
