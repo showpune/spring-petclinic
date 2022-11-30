@@ -1,0 +1,20 @@
+apiVersion: carto.run/v1alpha1
+kind: Deliverable
+metadata:
+  generation: 1
+  labels:
+    app.kubernetes.io/component: deliverable
+    app.kubernetes.io/part-of: petclinic
+    app.tanzu.vmware.com/deliverable-type: web
+    apps.tanzu.vmware.com/workload-type: web
+    carto.run/cluster-template-name: deliverable-template
+    carto.run/resource-name: deliverable
+    carto.run/supply-chain-name: source-to-url
+    carto.run/template-kind: ClusterTemplate
+    carto.run/workload-name: petclinic
+    carto.run/workload-namespace: prod
+  name: petclinic
+  namespace: prod
+spec:
+  source:
+    image: zhiyongliacr.azurecr.io/supply_chain/petclinic-staging-bundle:3e27b28d-08f2-4ca4-99f1-4db470f21790

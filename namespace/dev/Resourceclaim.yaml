@@ -6,4 +6,4 @@ spec:
   ref:
     apiVersion: v1
     kind: Secret
-    name: mysql-secret
+    name: mysql-share-secret-rbac.yaml
