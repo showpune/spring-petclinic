@@ -17,4 +17,4 @@ metadata:
   namespace: prod
 spec:
   source:
-    image: zhiyongliacr.azurecr.io/supply_chain/petclinic-staging-bundle:3e27b28d-08f2-4ca4-99f1-4db470f21790
+    image: zhiyongliacr.azurecr.io/supply_chain/petclinic-prod-bundle:latest
