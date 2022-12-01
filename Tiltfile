@@ -23,3 +23,6 @@ k8s_custom_deploy(
 
 k8s_resource('petclinic', port_forwards=["8080:8080"],
             extra_pod_selectors=[{'serving.knative.dev/service': 'petclinic'}])
+
+k8s_resource('petclinic', port_forwards=["9005:9005"],
+            extra_pod_selectors=[{'serving.knative.dev/service': 'petclinic'}])
