@@ -14,6 +14,8 @@ stringData:
     Nuonuo8815
   jdbc-url: |
     jdbc:mysql://zhiyongli-mysql.mysql.database.azure.com/petclinic-staging?useSSL=true
+  test: |
+    dddd
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
@@ -26,3 +28,21 @@ spec:
     kind: Secret
     name: mysql-secret
 
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ApplicationInsights-secret
+  namespace: staging
+type: servicebinding.io/ApplicationInsights
+stringData:
+  type: |
+    ApplicationInsights
+  username: |
+    zhiyongli
+  password: |
+    Nuonuo8815
+  jdbc-url: |
+    jdbc:mysql://zhiyongli-mysql.mysql.database.azure.com/petclinic-staging?useSSL=true
+  test: |
+    dddd
