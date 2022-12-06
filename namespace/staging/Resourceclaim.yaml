@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mysql-secret
-  namespace: my-dev
+  namespace: staging
 type: servicebinding.io/mysql
 stringData:
   type: |
@@ -13,13 +13,13 @@ stringData:
   password: |
     Nuonuo8815
   jdbc-url: |
-    jdbc:mysql://zhiyongli-mysql.mysql.database.azure.com/petclinic-dev?useSSL=true
+    jdbc:mysql://zhiyongli-mysql.mysql.database.azure.com/petclinic-prod?useSSL=true
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
 metadata:
   name: mysql-claim
-  namespace: my-dev
+  namespace: staging
 spec:
   ref:
     apiVersion: v1
@@ -30,7 +30,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: applicationinsights-secret
-  namespace: my-dev
+  namespace: staging
 type: servicebinding.io/applicationinsights
 stringData:
   type: |
@@ -42,7 +42,7 @@ apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
 metadata:
   name: applicationinsights-claim
-  namespace: my-dev
+  namespace: staging
 spec:
   ref:
     apiVersion: v1

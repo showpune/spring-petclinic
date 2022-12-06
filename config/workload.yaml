@@ -15,9 +15,20 @@ spec:
       url: https://github.com/showpune/spring-petclinic.git
       ref:
         branch: springboot3
+  params:
+    - name: buildServiceBindings
+      value:
+        - apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+          kind: ResourceClaim
+          name: applicationinsights-claim
   serviceClaims:
     - name: mysql
       ref:
         apiVersion: services.apps.tanzu.vmware.com/v1alpha1
         kind: ResourceClaim
         name: mysql-claim
+    - name: applicationinsights
+      ref:
+        apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+        kind: ResourceClaim
+        name: applicationinsights-claim
