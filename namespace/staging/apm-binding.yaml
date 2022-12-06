@@ -8,7 +8,7 @@ stringData:
   type: |
     ApplicationInsights
   username: |
-    zhiyongli
+    zhiyongli222
 ---
 apiVersion: services.apps.tanzu.vmware.com/v1alpha1
 kind: ResourceClaim
