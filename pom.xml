@@ -187,13 +187,24 @@
       <name>Spring milestone</name>
       <url>https://repo.spring.io/milestone</url>
     </repository>
+    <repository>
+      <id>spring-snapshot</id>
+      <name>Spring snapshot</name>
+      <url>https://repo.spring.io/snapshot</url>
+    </repository>
   </repositories>
+
 
   <pluginRepositories>
     <pluginRepository>
       <id>spring-milestone</id>
       <name>Spring milestone</name>
       <url>https://repo.spring.io/milestone</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-snapshot</id>
+      <name>Spring snapshot</name>
+      <url>https://repo.spring.io/snapshot</url>
     </pluginRepository>
   </pluginRepositories>
 </project>
