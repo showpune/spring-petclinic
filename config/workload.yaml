@@ -10,6 +10,10 @@ spec:
     env:
       - name: BP_JVM_VERSION
         value: "17"
+      - name: BP_NATIVE_IMAGE
+        value: true
+      - name: BP_MAVEN_BUILD_ARGUMENTS
+        value: "-Dmaven.test.skip=true -Pnative package"
   source:
     git:
       url: https://github.com/showpune/spring-petclinic.git
