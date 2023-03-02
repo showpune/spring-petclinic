@@ -5,5 +5,5 @@ az spring app deploy --name petclinic-3x-native --source-path . --service zhiyon
 az spring app create --service zhiyongli-asc-e  --resource-group zhiyongli --name petclinic-3x
 az spring app deploy --name petclinic-3x --source-path . --service zhiyongli-asc-e --resource-group zhiyongli --build-env BP_JVM_VERSION=17
 
-az spring app create --service zhiyongli-asc-e  --resource-group zhiyongli --name petclinic-3x-jar
-az spring app deploy --name petclinic-3x-jar --artifact-path ./target/spring-petclinic-3.0.0-SNAPSHOT.jar --service zhiyongli-asc-e --resource-group zhiyongli --build-env BP_JVM_VERSION=17
+az spring app create --service zhiyongli-asc-s  --resource-group zhiyongli --name petclinic-3x-jar
+az spring app deploy --name petclinic-3x-jar --artifact-path ./target/spring-petclinic-3.0.0-SNAPSHOT.jar --service zhiyongli-asc-s --resource-group zhiyongli --build-env BP_JVM_VERSION=17
