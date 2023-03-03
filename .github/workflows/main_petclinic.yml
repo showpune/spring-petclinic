@@ -41,4 +41,4 @@ jobs:
           service-name: zhiyongli-asc-s
           app-name: spring-petclinic-github
           use-staging-deployment: false
-          package: ${{ env.ASC_PACKAGE_PATH }}/**/*.jar
+          package: ${{ env.ASC_PACKAGE_PATH }}/**/target/*.jar
