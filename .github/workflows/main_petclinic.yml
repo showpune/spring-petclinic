@@ -6,7 +6,7 @@ name: Build and deploy JAR app to SprinApps - petclinic
 on:
   push:
     branches:
-      - asa
+      - asa-hosting
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
   AZURE_SUBSCRIPTION: d51e3ffe-6b84-49cd-b426-0dc4ec660356
