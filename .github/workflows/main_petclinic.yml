@@ -9,7 +9,7 @@ on:
       - asa
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
-  AZURE_SUBSCRIPTION: 0753feba-86f1-4242-aff1-27938fb04531
+  AZURE_SUBSCRIPTION: d51e3ffe-6b84-49cd-b426-0dc4ec660356
 
 jobs:
   deploy_to_production:
@@ -31,7 +31,7 @@ jobs:
       - name: Login via Azure CLI
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.ASADEPLOYMENT }}
+          creds: ${{ secrets.ASAHOSTINGDEPLOYMENT }}
 
       - name: deploy to production with artifact
         uses: azure/spring-cloud-deploy@v1
@@ -39,6 +39,6 @@ jobs:
           azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
           action: Deploy
           service-name: zhiyongli-asc-s
-          app-name: spring-petclinic-github
+          app-name: petclinic-github
           use-staging-deployment: false
           package: ${{ env.ASC_PACKAGE_PATH }}/**/target/*.jar
