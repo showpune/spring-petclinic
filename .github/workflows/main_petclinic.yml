@@ -38,7 +38,7 @@ jobs:
         with:
           azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
           action: Deploy
-          service-name: zhiyongli-asc-s
+          service-name: zhiyongli-asc-hosting-s
           app-name: petclinic-github
           use-staging-deployment: false
           package: ${{ env.ASC_PACKAGE_PATH }}/**/target/*.jar
