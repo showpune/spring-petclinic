@@ -18,7 +18,7 @@ spec:
     git:
       url: https://github.com/showpune/spring-petclinic.git
       ref:
-        branch: main
+        branch: demo311
   serviceClaims:
     - name: mysql
       ref:

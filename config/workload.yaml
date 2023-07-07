@@ -4,6 +4,7 @@ metadata:
   name: petclinic
   labels:
     apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/has-tests: "true"
     app.kubernetes.io/part-of: petclinic
 spec:
   build:
@@ -14,7 +15,7 @@ spec:
     git:
       url: https://github.com/showpune/spring-petclinic.git
       ref:
-        branch: main
+        branch: demo311
   serviceClaims:
     - name: mysql
       ref:
