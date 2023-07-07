@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: petclinic
+  description: Spring Petclinic
+  tags:
+    - app-accelerator
+    - java
+    - spring
+    - web
+    - tanzu
+  annotations:
+    'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of: petclinic'
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-a
+  system: tanzu-web
