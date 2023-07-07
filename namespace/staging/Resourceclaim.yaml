@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: staging
+type: servicebinding.io/mysql
+stringData:
+  type: |
+    mysql
+  username: |
+    zhiyongli
+  password: |
+    Nuonuo8815
+  jdbc-url: |
+    jdbc:mysql://zhiyongli-mysql.mysql.database.azure.com/petclinic-prod?useSSL=true
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: mysql-claim
+  namespace: staging
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: mysql-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: applicationinsights-secret
+  namespace: staging
+type: servicebinding.io/applicationinsights
+stringData:
+  type: |
+    ApplicationInsights
+  username: |
+    zhiyongli222
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: applicationinsights-claim
+  namespace: staging
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: applicationinsights-secret
+

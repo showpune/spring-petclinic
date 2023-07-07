@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: my-dev
+type: servicebinding.io/mysql
+stringData:
+  type: |
+    mysql
+  username: |
+    petclinic
+  password: |
+    Javalabs@2023
+  jdbc-url: |
+    jdbc:mysql://petclinic-mysql.mysql.database.azure.com/petclinic?useSSL=true
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: mysql-claim
+  namespace: my-dev
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: mysql-secret
+

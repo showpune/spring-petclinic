@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: applicationinsights-secret
+  namespace: staging
+type: servicebinding.io/applicationinsights
+stringData:
+  type: |
+    ApplicationInsights
+  username: |
+    zhiyongli222
+---
+apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+kind: ResourceClaim
+metadata:
+  name: applicationinsights-claim
+  namespace: staging
+spec:
+  ref:
+    apiVersion: v1
+    kind: Secret
+    name: applicationinsights-secret
