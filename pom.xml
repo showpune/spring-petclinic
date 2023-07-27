@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.7</version>
+    <version>3.1.1</version>
   </parent>
   <name>petclinic</name>
 
@@ -32,7 +32,7 @@
     <maven-checkstyle.version>3.2.2</maven-checkstyle.version>
     <nohttp-checkstyle.version>0.0.11</nohttp-checkstyle.version>
     <spring-format.version>0.0.39</spring-format.version>
-
+    <image.name>showpune/${project.name}:${project.version}</image.name>
   </properties>
 
   <dependencies>
@@ -195,6 +195,11 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <image>
+            <name>${image.name}</name>
+          </image>
+        </configuration>
         <executions>
           <execution>
             <!-- Spring Boot Actuator displays build-related information
@@ -255,6 +260,12 @@
   </licenses>
 
   <profiles>
+    <profile>
+      <id>native</id>
+      <properties>
+        <image.name>showpune/${project.name}-native:${project.version}</image.name>
+      </properties>
+    </profile>
     <profile>
       <id>css</id>
       <build>
