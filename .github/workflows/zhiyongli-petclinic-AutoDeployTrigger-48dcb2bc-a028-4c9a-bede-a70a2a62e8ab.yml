@@ -1,0 +1,45 @@
+name: Trigger auto deployment for zhiyongli-petclinic
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ ACA-TEST ]
+    paths:
+    - '//**'
+    - '.github/workflows/zhiyongli-petclinic-AutoDeployTrigger-48dcb2bc-a028-4c9a-bede-a70a2a62e8ab.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.ZHIYONGLIPETCLINIC_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.ZHIYONGLIPETCLINIC_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.ZHIYONGLIPETCLINIC_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: zhiyongliacr.azurecr.io
+          registryUsername: ${{ secrets.ZHIYONGLIPETCLINIC_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ZHIYONGLIPETCLINIC_REGISTRY_PASSWORD }}
+          containerAppName: zhiyongli-petclinic
+          resourceGroup: zhiyongli-tanzu
+          imageToBuild: zhiyongliacr.azurecr.io/zhiyongli-petclinic:${{ github.sha }}
+          dockerfilePath: Dockerfile
+
+
