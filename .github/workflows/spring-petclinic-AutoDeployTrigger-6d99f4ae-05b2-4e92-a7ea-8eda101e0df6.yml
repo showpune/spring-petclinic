@@ -30,8 +30,8 @@ jobs:
           tenant-id: ${{ secrets.SPRINGPETCLINIC_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.SPRINGPETCLINIC_AZURE_SUBSCRIPTION_ID }}
 
-      - name: Build and push container image to registry
-        uses: azure/container-apps-deploy-action@v1
+      - name: Azure Container Apps Build and Deploy for Java            
+        uses: showpune/container-apps-deploy-action@v0.0.5
         with:
           appSourcePath: ${{ github.workspace }} 
           registryUrl: docker.io
@@ -40,6 +40,5 @@ jobs:
           containerAppName: spring-petclinic
           resourceGroup: zhiyongli-tanzu
           imageToBuild: showpune/spring-petclinic:${{ github.sha }}
-          dockerfilePath: Dockerfile
 
 
