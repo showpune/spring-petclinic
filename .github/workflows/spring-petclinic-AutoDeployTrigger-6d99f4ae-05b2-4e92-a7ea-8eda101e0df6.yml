@@ -1,0 +1,45 @@
+name: Trigger auto deployment for spring-petclinic
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ demo311 ]
+    paths:
+    - '//**'
+    - '.github/workflows/spring-petclinic-AutoDeployTrigger-6d99f4ae-05b2-4e92-a7ea-8eda101e0df6.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.SPRINGPETCLINIC_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.SPRINGPETCLINIC_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.SPRINGPETCLINIC_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.SPRINGPETCLINIC_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.SPRINGPETCLINIC_REGISTRY_PASSWORD }}
+          containerAppName: spring-petclinic
+          resourceGroup: zhiyongli-tanzu
+          imageToBuild: showpune/spring-petclinic:${{ github.sha }}
+          dockerfilePath: Dockerfile
+
+
