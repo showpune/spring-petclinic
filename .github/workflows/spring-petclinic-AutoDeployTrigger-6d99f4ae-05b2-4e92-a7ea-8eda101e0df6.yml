@@ -40,6 +40,6 @@ jobs:
           containerAppName: spring-petclinic
           resourceGroup: zhiyongli-tanzu
           imageToBuild: showpune/spring-petclinic:${{ github.sha }}
-          buildEnv: "--env BP_NATIVE_IMAGE=true BP_MAVEN_BUILD_ARGUMENTS='-Dmaven.test.skip=true -Pnative package'"
+          buildEnv: ' --env BP_NATIVE_IMAGE=true BP_MAVEN_BUILD_ARGUMENTS="-Dmaven.test.skip=true -Pnative package" '
 
 
