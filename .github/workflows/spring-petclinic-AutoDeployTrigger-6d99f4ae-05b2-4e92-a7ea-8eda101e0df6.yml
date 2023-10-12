@@ -31,7 +31,7 @@ jobs:
           subscription-id: ${{ secrets.SPRINGPETCLINIC_AZURE_SUBSCRIPTION_ID }}
 
       - name: Azure Container Apps Build and Deploy for Java            
-        uses: showpune/container-apps-deploy-action@v0.0.6
+        uses: showpune/container-apps-deploy-action@v0.0.8
         with:
           appSourcePath: ${{ github.workspace }} 
           registryUrl: docker.io
