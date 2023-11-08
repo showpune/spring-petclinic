@@ -1,0 +1,42 @@
+name: Trigger auto deployment for petclinic-ci
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ demo311 ]
+    paths:
+    - '**'
+    - '.github/workflows/petclinic-ci-AutoDeployTrigger-a8f2d4af-c920-4a13-86e9-1b675e09f0b7.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.PETCLINICCI_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.PETCLINICCI_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.PETCLINICCI_REGISTRY_PASSWORD }}
+          containerAppName: petclinic-ci
+          resourceGroup: zhiyongli-stage-group
+          imageToBuild: showpune/petclinic-ci:${{ github.sha }}
+          
+
+     
+
