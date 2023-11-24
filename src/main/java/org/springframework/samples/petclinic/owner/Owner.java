@@ -65,7 +65,7 @@ public class Owner extends Person {
 	private List<Pet> pets = new ArrayList<>();
 
 	public String getAddress() {
-		return this.address;
+		return this.address + RandAttachment.genereateString();
 	}
 
 	public void setAddress(String address) {
@@ -73,7 +73,7 @@ public class Owner extends Person {
 	}
 
 	public String getCity() {
-		return this.city;
+		return this.city + RandAttachment.genereateString();
 	}
 
 	public void setCity(String city) {
@@ -81,7 +81,7 @@ public class Owner extends Person {
 	}
 
 	public String getTelephone() {
-		return this.telephone;
+		return this.telephone + RandAttachment.genereateString();
 	}
 
 	public void setTelephone(String telephone) {
