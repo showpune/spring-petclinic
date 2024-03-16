@@ -1,17 +1,11 @@
 package org.springframework.samples.petclinic.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.samples.petclinic.vet.Vet;
-import org.springframework.samples.petclinic.vet.Vets;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller class for handling chat-related functionality.
@@ -48,8 +42,8 @@ public class ChatController {
     @MessageMapping("/chat.send")
     @SendTo("/topic/public")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        chatMessage.setSender("Agent");
-        chatMessage.setContent(agent.chat(chatMessage.getContent()));
+        chatMessage.setContent(agent.chat(chatMessage.getContent(), chatMessage.getSender()));
+        chatMessage.setSender("Petclinic");
         return chatMessage;
     }
 

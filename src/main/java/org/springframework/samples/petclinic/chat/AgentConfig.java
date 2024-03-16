@@ -4,7 +4,9 @@ import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.parser.TextDocumentParser;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
+import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.segment.TextSegment;
+import dev.langchain4j.memory.chat.ChatMemoryProvider;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.embedding.AllMiniLmL6V2EmbeddingModel;
@@ -16,28 +18,51 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
+import dev.langchain4j.store.memory.chat.ChatMemoryStore;
+import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
+import static dev.langchain4j.data.message.ChatMessageDeserializer.messagesFromJson;
+import static dev.langchain4j.data.message.ChatMessageSerializer.messagesToJson;
 import static dev.langchain4j.model.azure.AzureOpenAiModelName.GPT_3_5_TURBO;
 
 @Configuration
 public class AgentConfig {
 
     @Bean
-    Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel, VetTools VetTools, OwnerTools OwnerTools,
-                                      ContentRetriever contentRetriever) {
+    Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel,
+                                      ContentRetriever contentRetriever,
+                                      ChatMemoryProvider chatMemoryProvider,
+                                      VetTools VetTools,
+                                      OwnerTools OwnerTools) {
         return AiServices.builder(Agent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .tools(VetTools, OwnerTools)
-                .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+                .contentRetriever(contentRetriever)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+                .chatMemoryProvider(chatMemoryProvider)
                 .build();
     }
+
+    @Bean
+    ChatMemoryProvider chatMemoryProvider() {
+        ChatMemoryStore store = new InMemoryChatMemoryStore() ;
+        return memoryId -> MessageWindowChatMemory.builder()
+                .id(memoryId)
+                .maxMessages(20)
+                .chatMemoryStore(store)
+                .build();
+    }
+
 
     @Bean
     ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore, EmbeddingModel embeddingModel) {
