@@ -1,0 +1,18 @@
+Pet Clinic Terms of Use
+
+1. Introduction
+Petclinic
+
+3. Vets
+3.1 Customer can query all vets and they specialty
+
+4. Owners
+4.1 Can query all the owners
+4.2 Can add an owner by input ...
+
+5. Pets
+5.1 Can list all the pets by the ownerid
+
+6. Visit
+6.1 Can list all the visit by the pet id
+
