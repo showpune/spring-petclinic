@@ -41,52 +41,53 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  */
 // NOT Waiting https://github.com/spring-projects/spring-boot/issues/5574
 @SpringBootTest(webEnvironment = RANDOM_PORT,
-        properties = {"server.error.include-message=ALWAYS", "management.endpoints.enabled-by-default=false"})
+		properties = { "server.error.include-message=ALWAYS", "management.endpoints.enabled-by-default=false" })
 class CrashControllerIntegrationTests {
 
-    @Value(value = "${local.server.port}")
-    private int port;
-    @Autowired
-    private TestRestTemplate rest;
+	@Value(value = "${local.server.port}")
+	private int port;
 
-    @Test
-    void testTriggerExceptionJson() {
-        ResponseEntity<Map<String, Object>> resp = rest.exchange(
-                RequestEntity.get("http://localhost:" + port + "/oups").build(),
-                new ParameterizedTypeReference<Map<String, Object>>() {
-                });
-        assertThat(resp).isNotNull();
-        assertThat(resp.getStatusCode().is5xxServerError());
-        assertThat(resp.getBody().containsKey("timestamp"));
-        assertThat(resp.getBody().containsKey("status"));
-        assertThat(resp.getBody().containsKey("error"));
-        assertThat(resp.getBody()).containsEntry("message",
-                "Expected: controller used to showcase what happens when an exception is thrown");
-        assertThat(resp.getBody()).containsEntry("path", "/oups");
-    }
+	@Autowired
+	private TestRestTemplate rest;
 
-    @Test
-    void testTriggerExceptionHtml() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(MediaType.TEXT_HTML));
-        ResponseEntity<String> resp = rest.exchange("http://localhost:" + port + "/oups", HttpMethod.GET,
-                new HttpEntity<>(headers), String.class);
-        assertThat(resp).isNotNull();
-        assertThat(resp.getStatusCode().is5xxServerError());
-        assertThat(resp.getBody()).isNotNull();
-        // html:
-        assertThat(resp.getBody()).containsSubsequence("<body>", "<h2>", "Something happened...", "</h2>", "<p>",
-                "Expected:", "controller", "used", "to", "showcase", "what", "happens", "when", "an", "exception", "is",
-                "thrown", "</p>", "</body>");
-        // Not the whitelabel error page:
-        assertThat(resp.getBody()).doesNotContain("Whitelabel Error Page",
-                "This application has no explicit mapping for");
-    }
+	@Test
+	void testTriggerExceptionJson() {
+		ResponseEntity<Map<String, Object>> resp = rest.exchange(
+				RequestEntity.get("http://localhost:" + port + "/oups").build(),
+				new ParameterizedTypeReference<Map<String, Object>>() {
+				});
+		assertThat(resp).isNotNull();
+		assertThat(resp.getStatusCode().is5xxServerError());
+		assertThat(resp.getBody().containsKey("timestamp"));
+		assertThat(resp.getBody().containsKey("status"));
+		assertThat(resp.getBody().containsKey("error"));
+		assertThat(resp.getBody()).containsEntry("message",
+				"Expected: controller used to showcase what happens when an exception is thrown");
+		assertThat(resp.getBody()).containsEntry("path", "/oups");
+	}
 
-    @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,
-            DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
-    static class TestConfiguration {
+	@Test
+	void testTriggerExceptionHtml() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(List.of(MediaType.TEXT_HTML));
+		ResponseEntity<String> resp = rest.exchange("http://localhost:" + port + "/oups", HttpMethod.GET,
+				new HttpEntity<>(headers), String.class);
+		assertThat(resp).isNotNull();
+		assertThat(resp.getStatusCode().is5xxServerError());
+		assertThat(resp.getBody()).isNotNull();
+		// html:
+		assertThat(resp.getBody()).containsSubsequence("<body>", "<h2>", "Something happened...", "</h2>", "<p>",
+				"Expected:", "controller", "used", "to", "showcase", "what", "happens", "when", "an", "exception", "is",
+				"thrown", "</p>", "</body>");
+		// Not the whitelabel error page:
+		assertThat(resp.getBody()).doesNotContain("Whitelabel Error Page",
+				"This application has no explicit mapping for");
+	}
 
-    }
+	@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class,
+			DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
+	static class TestConfiguration {
+
+	}
 
 }

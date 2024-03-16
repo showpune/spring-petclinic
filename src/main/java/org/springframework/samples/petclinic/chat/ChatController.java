@@ -13,38 +13,38 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ChatController {
 
-    @Autowired
-    private Agent agent;
+	@Autowired
+	private Agent agent;
 
-    public void setAgent(Agent agent) {
-        this.agent = agent;
-    }
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}
 
-    /**
-     * Registers a user for chat.
-     * <p>
-     * param chatMessage The chat message containing the sender's information. param
-     * headerAccessor The SimpMessageHeaderAccessor object used to access session
-     * attributes. return The registered chat message.
-     */
-    @MessageMapping("/chat.register")
-    @SendTo("/topic/public")
-    public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        return chatMessage;
-    }
+	/**
+	 * Registers a user for chat.
+	 * <p>
+	 * param chatMessage The chat message containing the sender's information. param
+	 * headerAccessor The SimpMessageHeaderAccessor object used to access session
+	 * attributes. return The registered chat message.
+	 */
+	@MessageMapping("/chat.register")
+	@SendTo("/topic/public")
+	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+		return chatMessage;
+	}
 
-    /**
-     * Sends a chat message to all connected users.
-     * <p>
-     * param chatMessage The chat message to be sent. return The sent chat message.
-     */
-    @MessageMapping("/chat.send")
-    @SendTo("/topic/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        chatMessage.setContent(agent.chat(chatMessage.getContent(), chatMessage.getSender()));
-        chatMessage.setSender("Petclinic");
-        return chatMessage;
-    }
+	/**
+	 * Sends a chat message to all connected users.
+	 * <p>
+	 * param chatMessage The chat message to be sent. return The sent chat message.
+	 */
+	@MessageMapping("/chat.send")
+	@SendTo("/topic/public")
+	public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+		chatMessage.setContent(agent.chat(chatMessage.getContent(), chatMessage.getSender()));
+		chatMessage.setSender("Petclinic");
+		return chatMessage;
+	}
 
 }

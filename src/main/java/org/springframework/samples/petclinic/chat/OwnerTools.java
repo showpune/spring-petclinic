@@ -24,19 +24,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-
 @Component
 public class OwnerTools {
 
-    private final OwnerRepository owners;
+	private final OwnerRepository owners;
 
-    public OwnerTools(OwnerRepository clinicService) {
-        this.owners = clinicService;
-    }
+	public OwnerTools(OwnerRepository clinicService) {
+		this.owners = clinicService;
+	}
 
-    @Tool(value = {"Query the owners by name"})
-    List<Owner> queryOwners(String name) {
-        Pageable pageable = PageRequest.of(0, 5);
-        return owners.findByLastName(name, pageable).toList();
-    }
+	@Tool(value = { "Query the owners by name" })
+	List<Owner> queryOwners(String name) {
+		Pageable pageable = PageRequest.of(0, 5);
+		return owners.findByLastName(name, pageable).toList();
+	}
+
 }

@@ -32,83 +32,79 @@ import static dev.langchain4j.model.azure.AzureOpenAiModelName.GPT_3_5_TURBO;
 @Configuration
 public class AgentConfig {
 
-    @Bean
-    Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel,
-                                      ContentRetriever contentRetriever,
-                                      ChatMemoryProvider chatMemoryProvider,
-                                      VetTools VetTools,
-                                      OwnerTools OwnerTools) {
-        return AiServices.builder(Agent.class)
-                .chatLanguageModel(chatLanguageModel)
-                .tools(VetTools, OwnerTools)
-                .contentRetriever(contentRetriever)
-                .chatMemory(MessageWindowChatMemory.withMaxMessages(20))
-                .chatMemoryProvider(chatMemoryProvider)
-                .build();
-    }
+	@Bean
+	Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever,
+			ChatMemoryProvider chatMemoryProvider, VetTools VetTools, OwnerTools OwnerTools) {
+		return AiServices.builder(Agent.class)
+			.chatLanguageModel(chatLanguageModel)
+			.tools(VetTools, OwnerTools)
+			.contentRetriever(contentRetriever)
+			.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+			.chatMemoryProvider(chatMemoryProvider)
+			.build();
+	}
 
-    @Bean
-    ChatMemoryProvider chatMemoryProvider() {
-        ChatMemoryStore store = new InMemoryChatMemoryStore();
-        return memoryId -> MessageWindowChatMemory.builder()
-                .id(memoryId)
-                .maxMessages(20)
-                .chatMemoryStore(store)
-                .build();
-    }
+	@Bean
+	ChatMemoryProvider chatMemoryProvider() {
+		ChatMemoryStore store = new InMemoryChatMemoryStore();
+		return memoryId -> MessageWindowChatMemory.builder()
+			.id(memoryId)
+			.maxMessages(20)
+			.chatMemoryStore(store)
+			.build();
+	}
 
+	@Bean
+	ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore, EmbeddingModel embeddingModel) {
 
-    @Bean
-    ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore, EmbeddingModel embeddingModel) {
+		// You will need to adjust these parameters to find the optimal setting, which
+		// will depend on two main factors:
+		// - The nature of your data
+		// - The embedding model you are using
+		int maxResults = 1;
+		double minScore = 0.6;
 
-        // You will need to adjust these parameters to find the optimal setting, which
-        // will depend on two main factors:
-        // - The nature of your data
-        // - The embedding model you are using
-        int maxResults = 1;
-        double minScore = 0.6;
+		return EmbeddingStoreContentRetriever.builder()
+			.embeddingStore(embeddingStore)
+			.embeddingModel(embeddingModel)
+			.maxResults(maxResults)
+			.minScore(minScore)
+			.build();
+	}
 
-        return EmbeddingStoreContentRetriever.builder()
-                .embeddingStore(embeddingStore)
-                .embeddingModel(embeddingModel)
-                .maxResults(maxResults)
-                .minScore(minScore)
-                .build();
-    }
+	@Bean
+	EmbeddingModel embeddingModel() {
+		return new AllMiniLmL6V2EmbeddingModel();
+	}
 
-    @Bean
-    EmbeddingModel embeddingModel() {
-        return new AllMiniLmL6V2EmbeddingModel();
-    }
+	@Bean
+	EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader)
+			throws IOException {
 
-    @Bean
-    EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader)
-            throws IOException {
+		// Normally, you would already have your embedding store filled with your data.
+		// However, for the purpose of this demonstration, we will:
 
-        // Normally, you would already have your embedding store filled with your data.
-        // However, for the purpose of this demonstration, we will:
+		// 1. Create an in-memory embedding store
+		EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
 
-        // 1. Create an in-memory embedding store
-        EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
+		// 2. Load an example document ("Miles of Smiles" terms of use)
+		Resource resource = resourceLoader.getResource("classpath:petclinic-terms-of-use.txt");
+		Document document = loadDocument(resource.getFile().toPath(), new TextDocumentParser());
 
-        // 2. Load an example document ("Miles of Smiles" terms of use)
-        Resource resource = resourceLoader.getResource("classpath:petclinic-terms-of-use.txt");
-        Document document = loadDocument(resource.getFile().toPath(), new TextDocumentParser());
+		// 3. Split the document into segments 100 tokens each
+		// 4. Convert segments into embeddings
+		// 5. Store embeddings into embedding store
+		// All this can be done manually, but we will use EmbeddingStoreIngestor to
+		// automate this:
+		DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new OpenAiTokenizer(GPT_3_5_TURBO));
+		EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+			.documentSplitter(documentSplitter)
+			.embeddingModel(embeddingModel)
+			.embeddingStore(embeddingStore)
+			.build();
+		ingestor.ingest(document);
 
-        // 3. Split the document into segments 100 tokens each
-        // 4. Convert segments into embeddings
-        // 5. Store embeddings into embedding store
-        // All this can be done manually, but we will use EmbeddingStoreIngestor to
-        // automate this:
-        DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new OpenAiTokenizer(GPT_3_5_TURBO));
-        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
-                .documentSplitter(documentSplitter)
-                .embeddingModel(embeddingModel)
-                .embeddingStore(embeddingStore)
-                .build();
-        ingestor.ingest(document);
-
-        return embeddingStore;
-    }
+		return embeddingStore;
+	}
 
 }

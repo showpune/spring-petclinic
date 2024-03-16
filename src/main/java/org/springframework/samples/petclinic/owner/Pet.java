@@ -35,41 +35,41 @@ import java.util.Set;
 @Table(name = "pets")
 public class Pet extends NamedEntity {
 
-    @Column(name = "birth_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
+	@Column(name = "birth_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private PetType type;
+	@ManyToOne
+	@JoinColumn(name = "type_id")
+	private PetType type;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "pet_id")
-    @OrderBy("visit_date ASC")
-    private Set<Visit> visits = new LinkedHashSet<>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "pet_id")
+	@OrderBy("visit_date ASC")
+	private Set<Visit> visits = new LinkedHashSet<>();
 
-    public LocalDate getBirthDate() {
-        return this.birthDate;
-    }
+	public LocalDate getBirthDate() {
+		return this.birthDate;
+	}
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
+	}
 
-    public PetType getType() {
-        return this.type;
-    }
+	public PetType getType() {
+		return this.type;
+	}
 
-    public void setType(PetType type) {
-        this.type = type;
-    }
+	public void setType(PetType type) {
+		this.type = type;
+	}
 
-    public Collection<Visit> getVisits() {
-        return this.visits;
-    }
+	public Collection<Visit> getVisits() {
+		return this.visits;
+	}
 
-    public void addVisit(Visit visit) {
-        getVisits().add(visit);
-    }
+	public void addVisit(Visit visit) {
+		getVisits().add(visit);
+	}
 
 }

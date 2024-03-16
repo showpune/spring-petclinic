@@ -32,18 +32,18 @@ import java.util.Collection;
 @Component
 public class VetTools {
 
-    private final VetRepository vetRepository;
+	private final VetRepository vetRepository;
 
-    public VetTools(VetRepository vetRepository) {
-        this.vetRepository = vetRepository;
-    }
+	public VetTools(VetRepository vetRepository) {
+		this.vetRepository = vetRepository;
+	}
 
-    @Tool(value = {"return list of Vets"})
-    public Collection<Vet> getVetList() {
-        // Here we are returning an object of type 'Vets' rather than a collection of Vet
-        // objects so it is simpler for Object-Xml mapping
-        Vets vets = new Vets();
-        return vetRepository.findAll();
-    }
+	@Tool(value = { "return list of Vets" })
+	public Collection<Vet> getVetList() {
+		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// objects so it is simpler for Object-Xml mapping
+		Vets vets = new Vets();
+		return vetRepository.findAll();
+	}
 
 }

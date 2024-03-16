@@ -7,9 +7,9 @@ import dev.langchain4j.service.UserName;
 
 public interface Agent {
 
-    String SYSTEM_PROMPT = "You are a customer support agent of a pet clinic. You will answer question from a petclinic owner";
+	String SYSTEM_PROMPT = "You are a customer support agent of a pet clinic. You will answer question from a petclinic owner";
 
-    @SystemMessage({SYSTEM_PROMPT})
-    String chat(@UserMessage String message, @MemoryId @UserName String username);
+	@SystemMessage({ SYSTEM_PROMPT })
+	String chat(@UserMessage String message, @MemoryId @UserName String username);
 
 }
