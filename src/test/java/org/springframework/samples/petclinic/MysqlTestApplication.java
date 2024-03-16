@@ -27,20 +27,19 @@ import org.testcontainers.containers.MySQLContainer;
  * PetClinic Spring Boot Application.
  *
  * @author Dave Syer
- *
  */
 @Configuration
 public class MysqlTestApplication {
 
-	@ServiceConnection
-	@Profile("mysql")
-	@Bean
-	static MySQLContainer<?> container() {
-		return new MySQLContainer<>("mysql:8.2");
-	}
+    @ServiceConnection
+    @Profile("mysql")
+    @Bean
+    static MySQLContainer<?> container() {
+        return new MySQLContainer<>("mysql:8.2");
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(PetClinicApplication.class, "--spring.profiles.active=mysql");
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PetClinicApplication.class, "--spring.profiles.active=mysql");
+    }
 
 }

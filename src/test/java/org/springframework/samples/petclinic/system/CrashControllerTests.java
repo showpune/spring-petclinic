@@ -16,10 +16,10 @@
 
 package org.springframework.samples.petclinic.system;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link CrashController}
@@ -31,16 +31,16 @@ import org.junit.jupiter.api.Test;
 // luck ((plain(st) UNIT test)! :)
 class CrashControllerTests {
 
-	CrashController testee = new CrashController();
+    CrashController testee = new CrashController();
 
-	@Test
-	void testTriggerException() throws Exception {
-		RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
-			testee.triggerException();
-		});
+    @Test
+    void testTriggerException() throws Exception {
+        RuntimeException thrown = assertThrows(RuntimeException.class, () -> {
+            testee.triggerException();
+        });
 
-		assertEquals("Expected: controller used to showcase what happens when an exception is thrown",
-				thrown.getMessage());
-	}
+        assertEquals("Expected: controller used to showcase what happens when an exception is thrown",
+                thrown.getMessage());
+    }
 
 }
