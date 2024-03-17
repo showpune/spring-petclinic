@@ -7,11 +7,14 @@ Petclinic
 3.1 Customer can query all vets and they specialty
 
 4. Owners
+4.1 Owner is the customer
+4.2 Owner information include the ownerid, city, telephone and address
 4.1 Can query all the owners
-4.2 Can add an owner by input ...
+4.2 Can add an owner by input ownerid, city, telephone and address
 
 5. Pets
 5.1 Can list all the pets by the ownerid
+5.2 Can add a pet by input the ownerid, pet name, pet type, the pet type should be one cat,dog,lizard,snake,bird and hamster
 
 6. Visit
 6.1 Can list all the visit by the pet id

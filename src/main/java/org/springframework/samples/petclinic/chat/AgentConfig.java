@@ -81,21 +81,11 @@ public class AgentConfig {
 	EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader)
 			throws IOException {
 
-		// Normally, you would already have your embedding store filled with your data.
-		// However, for the purpose of this demonstration, we will:
-
-		// 1. Create an in-memory embedding store
 		EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
 
-		// 2. Load an example document ("Miles of Smiles" terms of use)
 		Resource resource = resourceLoader.getResource("classpath:petclinic-terms-of-use.txt");
 		Document document = loadDocument(resource.getFile().toPath(), new TextDocumentParser());
 
-		// 3. Split the document into segments 100 tokens each
-		// 4. Convert segments into embeddings
-		// 5. Store embeddings into embedding store
-		// All this can be done manually, but we will use EmbeddingStoreIngestor to
-		// automate this:
 		DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new OpenAiTokenizer(GPT_3_5_TURBO));
 		EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
 			.documentSplitter(documentSplitter)
