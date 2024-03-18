@@ -37,7 +37,7 @@ public class OwnerTools {
 		this.owners = clinicService;
 	}
 
-	@Tool(value = { "Query the owners by name" })
+	@Tool(value = {"Query the owners by name, include their pets and visit record"})
 	List<Owner> queryOwners(String name) {
 		Pageable pageable = PageRequest.of(0, 5);
 		return owners.findByLastName(name, pageable).toList();
