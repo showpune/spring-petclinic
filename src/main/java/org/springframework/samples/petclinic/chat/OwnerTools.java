@@ -37,11 +37,11 @@ public class OwnerTools {
 		this.owners = clinicService;
 	}
 
-	@Tool(value = {"Query the owners by name, include their pets and visit record"})
-	List<Owner> queryOwners(String name) {
-		Pageable pageable = PageRequest.of(0, 5);
-		return owners.findByLastName(name, pageable).toList();
-	}
+//	@Tool(value = {"Query the owners by name, include their pets and visit record"})
+//	List<Owner> queryOwners(String name) {
+//		Pageable pageable = PageRequest.of(0, 5);
+//		return owners.findByLastName(name, pageable).toList();
+//	}
 
 	@Tool(value = { "Query the pet by owner id" })
 	List<Pet> listPetByOwnerId(int ownerId) {
@@ -52,16 +52,20 @@ public class OwnerTools {
 		return owner.getPets();
 	}
 
-	@Tool(value = { "Create a new owner by inputting firstName, lastName, address, telephone and city" })
-	public String addOwner(String address, String telephone, String city, String firstName, String lastName) {
+	@Tool(value = { "Create a new owner by user's name and telephone." })
+	public String addOwner(String telephone, String firstName, String lastName) {
+		if (telephone.isEmpty())
+			return "Please provide phone number.";
+		if (firstName.isEmpty())
+			return "Please provide first name.";
+		if (lastName.isEmpty())
+			return "Please provide last name.";
 		Owner owner = new Owner();
-		owner.setAddress(address);
 		owner.setTelephone(telephone);
-		owner.setCity(city);
 		owner.setLastName(lastName);
 		owner.setFirstName(firstName);
 		this.owners.save(owner);
-		return "Owner id: " + owner.getId();
+		return "Owner created successfully. Owner id: " + owner.getId();
 	}
 
 	@Tool(value = { "return all pairs of pet type id and pet type name" })
@@ -69,19 +73,25 @@ public class OwnerTools {
 		return this.owners.findPetTypes();
 	}
 
-	@Tool(value = { "Create a new pet by  Owner id, Pet Type, Pet Type Id and Name" })
-	public void addPet(int ownerid, String petType, int petTypeId, String name) {
-		Owner owner = owners.findById(ownerid);
+	@Tool(value = { "Create a new pet by Owner id, what animal is the pet(Pet Type) and Name" })
+	public String addPet(String ownerid, String petType, String name) {
+		if (ownerid.isEmpty())
+			return "Please provide owner id, if the owner has not registered, please register the owner first.";
+		if (name.isEmpty())
+			return "Please provide pet name.";
+		if (petType.isEmpty())
+			return "Please tell me what animal is your pet.";
+		Owner owner = owners.findById(Integer.parseInt(ownerid));
 		Pet pet = new Pet();
 		pet.setName(name);
 		pet.setType(new PetType() {
 			{
 				setName(petType);
-				setId(petTypeId);
 			}
 		});
 		owner.addPet(pet);
 		this.owners.save(owner);
+		return "pet added successfully.";
 	}
 
 }

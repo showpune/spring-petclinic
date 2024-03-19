@@ -16,6 +16,8 @@
 package org.springframework.samples.petclinic.vet;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.xml.bind.annotation.XmlElement;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -34,6 +36,10 @@ import java.util.*;
 @Entity
 @Table(name = "vets")
 public class Vet extends Person {
+
+	@Column(name = "telephone")
+	@Digits(fraction = 0, integer = 10)
+	private String telephone;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
@@ -56,6 +62,10 @@ public class Vet extends Person {
 		List<Specialty> sortedSpecs = new ArrayList<>(getSpecialtiesInternal());
 		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name", true, true));
 		return Collections.unmodifiableList(sortedSpecs);
+	}
+
+	public String getTelephone() {
+		return this.telephone;
 	}
 
 	public int getNrOfSpecialties() {

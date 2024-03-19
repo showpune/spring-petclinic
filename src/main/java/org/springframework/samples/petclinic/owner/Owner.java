@@ -39,11 +39,9 @@ import java.util.List;
 public class Owner extends Person {
 
 	@Column(name = "address")
-	@NotBlank
 	private String address;
 
 	@Column(name = "city")
-	@NotBlank
 	private String city;
 
 	@Column(name = "telephone")

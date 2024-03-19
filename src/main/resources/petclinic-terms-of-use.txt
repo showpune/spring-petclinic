@@ -1,14 +1,38 @@
+1. Registration for owners and pets
+1.1 To register a pet, the user must register the owner of the pet first
+1.2 To register the owner, The user must provide the owner's name, telephone. The id of new registered owner will be used for pet registering.
+1.3 If the owner is already registered, please query the owner id to register the pet.
+1.4 When registering a pet, users must also provide the pet’s name.
+1.4 The clinic supports the following types of pets: cats, dogs, lizards, snakes, birds, and hamsters. Check if the user’s pet belongs to any of these animal types. If not, registration is not possible; if it does, registration can proceed.
+1.5 Pet type refers to what kind of animal a pet is. When registering a pet, users must inform us about what animal their pet is (pet type). Note that!!! If the customer has already mentioned that they have a cat, there is no need to ask about the type again.
+Cat breeds or aliases include: 土猫，猫猫，猫咪，英短，美短，暹罗猫，蓝猫，布偶猫。Domestic cat, kitty, British Shorthair, American Shorthair, Siamese cat, Russian Blue, Ragdoll.
+Dog breeds or aliases include: 土狗，贵宾犬，斗牛犬，博美，吉娃娃，比熊犬，柯基，萨摩耶。Mongrel, Poodle, Bulldog, Pomeranian, Chihuahua, Bichon Frise, Corgi, Samoyed.
+Bird species or aliases include: 麻雀，鹦鹉，鸽子。Sparrow, Parrot, Pigeon.
+
+2. Vet Recommendation
+2.1 Customer can get the recommendation for the vet by the customer's need and the pet's illness.
+2.2 Customer can query all vets and they specialty.
+2.3 The owner and pet must be registered before the doctor can serve the client.Customers can check the pet doctor's phone number to contact the doctor.
 
 
-1. Vets
-1.1 Customer can get the recommendation for the vet by the customer's need.
-1.2 Customer can query all vets and they specialty.
-1.3 Customer need to come to the clinic in person for a vet appointment. The appointment cannot be made online, but by registration online in advance, customers can save time.
 
-2. Pets
-2.1 To register a pet, the user must register the owner of the pet first
-2.2 The user must provide the owner's first name, last name, address, city, telephone to register the owner. The id of new registered owner will be used for pet registering.
-2.3 If the owner is already registered, please query the owner id to register the pet.
-2.4 In addition to owner id, the user must provide the pet's name and type. Pet types including cat,dog,lizard,snake,bird and hamster. (If the type of the pet is already told, don't ask it again)
+宠物
+1.1 注册宠物时，用户必须先注册宠物的主人。
+1.2 用户必须提供宠物主人的名字、姓氏和电话号码来注册主人。新注册的主人id将用于宠物注册。
+1.3 如果宠物主人已经注册，请查询主人的id进行宠物注册。
+1.4 注册宠物时，除了主人id，用户还必须提供宠物的名字。
+1.5 宠物类型指的是宠物是什么动物。注册宠物时，用户必须告诉我们他的宠物是什么动物，如果客户已经透露宠物是什么动物，不要再次询问.比如用户已经提到他养的是猫咪，就不要再询问宠物类型了。
+猫的品种或别称包括：土猫，猫咪，英短，美短，暹罗猫，蓝猫，布偶猫。
+狗的品种或别称包括：土狗，贵宾犬，斗牛犬，博美，吉娃娃，比熊犬，柯基，萨摩耶。
+鸟的品种或别称包括：麻雀，鹦鹉，鸽子。
+请通过客户提到的信息判断客户的宠物类型，只有当客户没有提供相关信息时，才询问宠物类型。
+1.6 诊所支持的宠物类型包括猫、狗、蜥蜴、蛇、鸟和仓鼠。检查用户的宠物是否属于这几种动物，如果不属于，无法注册，属于才能注册
+
+
+
+宠物医生
+2.1 客户可以根据自己的需求获得宠物医生的推荐。
+2.2 客户可以查询所有宠物医生及其专长。
+2.3 必须注册主人和宠物，医生才能为客户服务。客户可以查询宠物医生的电话联系医生。
 
 

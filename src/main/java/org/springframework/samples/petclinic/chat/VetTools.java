@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.chat;
 
 import dev.langchain4j.agent.tool.Tool;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.samples.petclinic.vet.VetRepository;
 import org.springframework.samples.petclinic.vet.Vets;
@@ -32,18 +33,32 @@ import java.util.Collection;
 @Component
 public class VetTools {
 
+
 	private final VetRepository vetRepository;
+
+	@Autowired
+	private RecommendationAgent recommendationAgent;
 
 	public VetTools(VetRepository vetRepository) {
 		this.vetRepository = vetRepository;
 	}
 
-	@Tool(value = { "return list of Vets" })
-	public Collection<Vet> getVetList() {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
-		// objects so it is simpler for Object-Xml mapping
+	@Tool(value = { "recommend one or two vets from vet list by the illness of the pet" })
+	public String recommendVet(String petIllness) {
+		if (petIllness.isEmpty())
+			return "Please provide the illness or the situation of your pet.";
 		Vets vets = new Vets();
-		return vetRepository.findAll();
+		Collection<Vet> vetList = vetRepository.findAll();
+		String recommendation = recommendationAgent.chat("Please recommend one or two vets in the vet list by specialties. Vet list: "+vetRepository.findAll());
+		return recommendation;
 	}
+
+//	@Tool(value = { "query vet list" })
+//	public Collection<Vet> getVetList() {
+//		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+//		// objects so it is simpler for Object-Xml mapping
+//		Vets vets = new Vets();
+//		return vetRepository.findAll();
+//	}
 
 }

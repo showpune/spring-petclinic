@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 public class AgentConfig {
 
 	@Bean
-	Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever,
-			ChatMemoryProvider chatMemoryProvider, VetTools VetTools, OwnerTools OwnerTools) {
-		return AiServices.builder(Agent.class)
+	ChatAgent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever,
+										  ChatMemoryProvider chatMemoryProvider, VetTools VetTools, OwnerTools OwnerTools) {
+		return AiServices.builder(ChatAgent.class)
 			.chatLanguageModel(chatLanguageModel)
 			.tools(VetTools, OwnerTools)
 			.contentRetriever(contentRetriever)
@@ -22,5 +22,28 @@ public class AgentConfig {
 			.chatMemoryProvider(chatMemoryProvider)
 			.build();
 	}
+
+	@Bean
+	RegistrationAgent configureRegistrationAgent(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever,
+										 ChatMemoryProvider chatMemoryProvider) {
+		return AiServices.builder(RegistrationAgent.class)
+			.chatLanguageModel(chatLanguageModel)
+			.contentRetriever(contentRetriever)
+			.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+			.chatMemoryProvider(chatMemoryProvider)
+			.build();
+	}
+
+	@Bean
+	RecommendationAgent configureRecommendationAgent(ChatLanguageModel chatLanguageModel,
+												 ChatMemoryProvider chatMemoryProvider) {
+		return AiServices.builder(RecommendationAgent.class)
+			.chatLanguageModel(chatLanguageModel)
+			.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+			.chatMemoryProvider(chatMemoryProvider)
+			.build();
+	}
+
+
 
 }

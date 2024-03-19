@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
 public class ChatController {
 
 	@Autowired
-	private Agent agent;
+	private ChatAgent chatAgent;
 
-	public void setAgent(Agent agent) {
-		this.agent = agent;
+	public void setAgent(ChatAgent chatAgent) {
+		this.chatAgent = chatAgent;
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class ChatController {
 	@MessageMapping("/chat.send")
 	@SendTo("/topic/public")
 	public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-		chatMessage.setContent(agent.chat(chatMessage.getContent(), chatMessage.getSender()));
+		chatMessage.setContent(chatAgent.chat(chatMessage.getContent(), chatMessage.getSender(), chatMessage.getSender()));
 		chatMessage.setSender("Petclinic");
 		return chatMessage;
 	}

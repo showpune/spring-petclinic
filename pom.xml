@@ -268,7 +268,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>prepare-agent</goal>
+                            <goal>prepare-chatAgent</goal>
                         </goals>
                     </execution>
                     <execution>
