@@ -10,8 +10,7 @@ Dog breeds or aliases include: 土狗，贵宾犬，斗牛犬，博美，吉娃�
 Bird species or aliases include: 麻雀，鹦鹉，鸽子。Sparrow, Parrot, Pigeon.
 
 2. Vet Recommendation
-2.1 Customer can get the recommendation for the vet by the customer's need and the pet's illness.
-2.2 Customer can query all vets and they specialty.
+2.1 Recommend the vet who specialize in the pet's illness.
 2.3 The owner and pet must be registered before the doctor can serve the client.Customers can check the pet doctor's phone number to contact the doctor.
 
 
@@ -32,8 +31,7 @@ Bird species or aliases include: 麻雀，鹦鹉，鸽子。Sparrow, Parrot, Pig
 
 
 宠物医生
-2.1 客户可以根据自己的需求获得宠物医生的推荐。
-2.2 客户可以查询所有宠物医生及其专长。
+2.1 按宠物病症推荐专长的医生。
 2.3 必须注册主人和宠物，医生才能为客户服务。客户可以查询宠物医生的电话联系医生。
 
 

@@ -34,18 +34,10 @@ public class OwnerTools {
 
 	private final OwnerRepository owners;
 
-//	@Autowired
-//	private PetTypeAgent petTypeAgent;
 
 	public OwnerTools(OwnerRepository clinicService) {
 		this.owners = clinicService;
 	}
-
-//	@Tool(value = {"Query the owners by name, include their pets and visit record"})
-//	List<Owner> queryOwners(String name) {
-//		Pageable pageable = PageRequest.of(0, 5);
-//		return owners.findByLastName(name, pageable).toList();
-//	}
 
 	@Tool(value = { "Query the pet by owner id" })
 	List<Pet> listPetByOwnerId(int ownerId) {
@@ -69,7 +61,7 @@ public class OwnerTools {
 		owner.setLastName(lastName);
 		owner.setFirstName(firstName);
 		this.owners.save(owner);
-		return "Owner created successfully. Owner id: " + owner.getId();
+		return "Owner registered successfully. Owner id: " + owner.getId();
 	}
 
 	@Tool(value = { "return all pairs of pet type id and pet type name" })
@@ -94,12 +86,7 @@ public class OwnerTools {
 		pet.setType(type);
 		owner.addPet(pet);
 		this.owners.save(owner);
-		return "pet added successfully.";
+		return "Pet and owner registration done successfully.";
 	}
-//
-//	@Tool(value = { "Find out pet type by what kind of animal is the pet" })
-//	public String findPetType(String animal) {
-//		return "the pet type is: "+ petTypeAgent.chat(animal);
-//	}
 
 }

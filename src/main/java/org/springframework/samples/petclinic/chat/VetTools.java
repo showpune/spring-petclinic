@@ -36,26 +36,31 @@ public class VetTools {
 
 	private final VetRepository vetRepository;
 
-	@Autowired
-	private RecommendationAgent recommendationAgent;
-
 	public VetTools(VetRepository vetRepository) {
 		this.vetRepository = vetRepository;
 	}
 
-	@Tool(value = { "recommend one or two vets by the illness of the pet" })
+	@Tool(value = { "recommend vet by the illness of the pet" })
 	public String recommendVet(String petIllness) {
 		if (petIllness.isEmpty())
 			return "Please provide the illness or the situation of your pet.";
 		Collection<Vet> vetList = vetRepository.findAll();
 		StringBuilder vetListString = new StringBuilder();
 		for (Vet vet : vetList) {
-			vetListString.append(vet.getFirstName()).append(" ").append(vet.getLastName()).append(", ").append(vet.getSpecialties()).append(", ").append(vet.getTelephone()).append(";");
+			vetListString.append("Name: ").append(vet.getFirstName()).append(" ").append(vet.getLastName()).append(", Specialties: ").append(vet.getSpecialties()).append(", Telephone: ").append(vet.getTelephone()).append(";\n");
 		}
 		String vetListStr = vetListString.toString();
 	
-		String recommendation = recommendationAgent.chat("Pet illness: " + petIllness+"Please recommend one or two vets in the vet list. Vet list: "+vetListStr);
-		return recommendation;
+		String recommendationAsk = "Pet illness: " + petIllness+". Please recommend one or two vets who specialize at the illness. Vet list: "+vetListStr;
+		return recommendationAsk;
 	}
+
+//		@Tool(value = { "query vet list" })
+//		public Collection<Vet> getVetList() {
+//			// Here we are returning an object of type 'Vets' rather than a collection of Vet
+//			// objects so it is simpler for Object-Xml mapping
+//			Vets vets = new Vets();
+//			return vetRepository.findAll();
+//		}
 
 }

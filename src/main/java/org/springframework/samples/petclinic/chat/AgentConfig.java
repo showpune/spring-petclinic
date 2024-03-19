@@ -34,15 +34,15 @@ public class AgentConfig {
 //			.build();
 //	}
 
-	@Bean
-	RecommendationAgent configureRecommendationAgent(ChatLanguageModel chatLanguageModel,
-												 ChatMemoryProvider chatMemoryProvider) {
-		return AiServices.builder(RecommendationAgent.class)
-			.chatLanguageModel(chatLanguageModel)
-			.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
-			.chatMemoryProvider(chatMemoryProvider)
-			.build();
-	}
+//	@Bean
+//	RecommendationAgent configureRecommendationAgent(ChatLanguageModel chatLanguageModel,
+//												 ChatMemoryProvider chatMemoryProvider) {
+//		return AiServices.builder(RecommendationAgent.class)
+//			.chatLanguageModel(chatLanguageModel)
+//			.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+//			.chatMemoryProvider(chatMemoryProvider)
+//			.build();
+//	}
 
 
 
