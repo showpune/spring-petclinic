@@ -50,7 +50,7 @@ public class VetTools {
 		Collection<Vet> vetList = vetRepository.findAll();
 		StringBuilder vetListString = new StringBuilder();
 		for (Vet vet : vetList) {
-			vetListString.append(vet.toString()).append(", ");
+			vetListString.append(vet.getFirstName()).append(" ").append(vet.getLastName()).append(", ").append(vet.getSpecialties()).append(", ").append(vet.getTelephone()).append(";");
 		}
 		String vetListStr = vetListString.toString();
 	
