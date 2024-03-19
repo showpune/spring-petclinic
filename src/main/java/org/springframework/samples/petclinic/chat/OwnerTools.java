@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.chat;
 
 import dev.langchain4j.agent.tool.Tool;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.owner.Owner;
@@ -32,6 +33,9 @@ import java.util.List;
 public class OwnerTools {
 
 	private final OwnerRepository owners;
+
+//	@Autowired
+//	private PetTypeAgent petTypeAgent;
 
 	public OwnerTools(OwnerRepository clinicService) {
 		this.owners = clinicService;
@@ -73,25 +77,29 @@ public class OwnerTools {
 		return this.owners.findPetTypes();
 	}
 
-	@Tool(value = { "Create a new pet by Owner id, what animal is the pet(Pet Type) and Name" })
-	public String addPet(String ownerid, String petType, String name) {
+	@Tool(value = { "Create a new pet by Owner id, pet type and pet name" })
+	public String addPet(String ownerid, String petType, int petTypeId, String name) {
 		if (ownerid.isEmpty())
 			return "Please provide owner id, if the owner has not registered, please register the owner first.";
 		if (name.isEmpty())
 			return "Please provide pet name.";
 		if (petType.isEmpty())
-			return "Please tell me what animal is your pet.";
+			return "Please tell me pet type";
 		Owner owner = owners.findById(Integer.parseInt(ownerid));
 		Pet pet = new Pet();
 		pet.setName(name);
-		pet.setType(new PetType() {
-			{
-				setName(petType);
-			}
-		});
+		PetType type = new PetType();
+		type.setName(petType);
+		type.setId(petTypeId);
+		pet.setType(type);
 		owner.addPet(pet);
 		this.owners.save(owner);
 		return "pet added successfully.";
 	}
+//
+//	@Tool(value = { "Find out pet type by what kind of animal is the pet" })
+//	public String findPetType(String animal) {
+//		return "the pet type is: "+ petTypeAgent.chat(animal);
+//	}
 
 }

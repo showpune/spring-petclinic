@@ -23,16 +23,16 @@ public class AgentConfig {
 			.build();
 	}
 
-	@Bean
-	RegistrationAgent configureRegistrationAgent(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever,
-										 ChatMemoryProvider chatMemoryProvider) {
-		return AiServices.builder(RegistrationAgent.class)
-			.chatLanguageModel(chatLanguageModel)
-			.contentRetriever(contentRetriever)
-			.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
-			.chatMemoryProvider(chatMemoryProvider)
-			.build();
-	}
+//	@Bean
+//	PetTypeAgent petTypeAgent(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever,
+//										 ChatMemoryProvider chatMemoryProvider) {
+//		return AiServices.builder(PetTypeAgent.class)
+//			.chatLanguageModel(chatLanguageModel)
+//			.contentRetriever(contentRetriever)
+//			.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+//			.chatMemoryProvider(chatMemoryProvider)
+//			.build();
+//	}
 
 	@Bean
 	RecommendationAgent configureRecommendationAgent(ChatLanguageModel chatLanguageModel,

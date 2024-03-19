@@ -43,22 +43,13 @@ public class VetTools {
 		this.vetRepository = vetRepository;
 	}
 
-	@Tool(value = { "recommend one or two vets from vet list by the illness of the pet" })
+	@Tool(value = { "recommend one or two vets by the illness of the pet" })
 	public String recommendVet(String petIllness) {
 		if (petIllness.isEmpty())
 			return "Please provide the illness or the situation of your pet.";
-		Vets vets = new Vets();
 		Collection<Vet> vetList = vetRepository.findAll();
-		String recommendation = recommendationAgent.chat("Please recommend one or two vets in the vet list by specialties. Vet list: "+vetRepository.findAll());
+		String recommendation = recommendationAgent.chat("Pet illness: " + petIllness+"Please recommend one or two vets in the vet list. Vet list: "+vetList);
 		return recommendation;
 	}
-
-//	@Tool(value = { "query vet list" })
-//	public Collection<Vet> getVetList() {
-//		// Here we are returning an object of type 'Vets' rather than a collection of Vet
-//		// objects so it is simpler for Object-Xml mapping
-//		Vets vets = new Vets();
-//		return vetRepository.findAll();
-//	}
 
 }
