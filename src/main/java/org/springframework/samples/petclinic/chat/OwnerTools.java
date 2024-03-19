@@ -53,7 +53,7 @@ public class OwnerTools {
 	}
 
 	@Tool(value = { "Create a new owner by inputting firstName, lastName, address, telephone and city" })
-	public void addOwner(String address, String telephone, String city, String firstName, String lastName) {
+	public String addOwner(String address, String telephone, String city, String firstName, String lastName) {
 		Owner owner = new Owner();
 		owner.setAddress(address);
 		owner.setTelephone(telephone);
@@ -61,6 +61,7 @@ public class OwnerTools {
 		owner.setLastName(lastName);
 		owner.setFirstName(firstName);
 		this.owners.save(owner);
+		return "Owner id: " + owner.getId();
 	}
 
 	@Tool(value = { "return all pairs of pet type id and pet type name" })
@@ -73,7 +74,6 @@ public class OwnerTools {
 		Owner owner = owners.findById(ownerid);
 		Pet pet = new Pet();
 		pet.setName(name);
-		pet.setBirthDate(LocalDate.now());
 		pet.setType(new PetType() {
 			{
 				setName(petType);
