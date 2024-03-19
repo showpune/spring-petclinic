@@ -48,7 +48,13 @@ public class VetTools {
 		if (petIllness.isEmpty())
 			return "Please provide the illness or the situation of your pet.";
 		Collection<Vet> vetList = vetRepository.findAll();
-		String recommendation = recommendationAgent.chat("Pet illness: " + petIllness+"Please recommend one or two vets in the vet list. Vet list: "+vetList);
+		StringBuilder vetListString = new StringBuilder();
+		for (Vet vet : vetList) {
+			vetListString.append(vet.toString()).append(", ");
+		}
+		String vetListStr = vetListString.toString();
+	
+		String recommendation = recommendationAgent.chat("Pet illness: " + petIllness+"Please recommend one or two vets in the vet list. Vet list: "+vetListStr);
 		return recommendation;
 	}
 
