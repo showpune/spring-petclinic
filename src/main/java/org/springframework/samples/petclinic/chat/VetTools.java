@@ -38,7 +38,7 @@ public class VetTools {
 		this.vetRepository = vetRepository;
 	}
 
-	@Tool(value = { "return list of Vets" })
+	@Tool(value = { "return list of Vets, include their specialist" })
 	public Collection<Vet> getVetList() {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects so it is simpler for Object-Xml mapping

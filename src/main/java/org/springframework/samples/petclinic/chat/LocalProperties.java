@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = Properties.PREFIX)
-public class Properties {
+@ConfigurationProperties(prefix = LocalProperties.PREFIX)
+public class LocalProperties {
 
 	static final String PREFIX = "langchain4j.local.spring";
 

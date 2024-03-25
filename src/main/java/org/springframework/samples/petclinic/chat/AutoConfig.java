@@ -28,72 +28,68 @@ import java.io.IOException;
 
 import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.loadDocument;
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_3_5_TURBO;
-import static org.springframework.samples.petclinic.chat.Properties.PREFIX;
+import static org.springframework.samples.petclinic.chat.LocalProperties.PREFIX;
 
 @Configuration
-@EnableConfigurationProperties(Properties.class)
+@EnableConfigurationProperties(LocalProperties.class)
 public class AutoConfig {
 
-    @Bean
-    @ConditionalOnProperty(name = PREFIX + ".memory.use-local", havingValue = "true")
-    ChatMemoryProvider chatMemoryProvider(Properties properties) {
-        Properties.LocalMemoryProperties LocalMemoryProperties = properties.getMemory();
-        ChatMemoryStore store = new InMemoryChatMemoryStore();
-        return memoryId -> MessageWindowChatMemory.builder()
-                .id(memoryId)
-                .maxMessages(LocalMemoryProperties.getMemorySize())
-                .chatMemoryStore(store)
-                .build();
-    }
+	@Bean
+	@ConditionalOnProperty(name = PREFIX + ".memory.use-local", havingValue = "true")
+	ChatMemoryProvider chatMemoryProvider(LocalProperties properties) {
+		LocalProperties.LocalMemoryProperties LocalMemoryProperties = properties.getMemory();
+		ChatMemoryStore store = new InMemoryChatMemoryStore();
+		return memoryId -> MessageWindowChatMemory.builder()
+			.id(memoryId)
+			.maxMessages(LocalMemoryProperties.getMemorySize())
+			.chatMemoryStore(store)
+			.build();
+	}
 
-    @Bean
-    @ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue = "true")
-    ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore, EmbeddingModel embeddingModel,
-                                      Properties properties) {
+	@Bean
+	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue = "true")
+	ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore, EmbeddingModel embeddingModel,
+			LocalProperties properties) {
 
-        Properties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriver();
-        // You will need to adjust these parameters to find the optimal setting, which
-        // will depend on two main factors:
-        // - The nature of your data
-        // - The embedding model you are using
-        int maxResults = contentRetrieverProperties.getMaxResults() == null ? 1
-                : Integer.parseInt(contentRetrieverProperties.getMaxResults());
-        double minScore = contentRetrieverProperties.getMinScore() == null ? 0.6
-                : Double.parseDouble(contentRetrieverProperties.getMinScore());
+		LocalProperties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriver();
+		int maxResults = contentRetrieverProperties.getMaxResults() == null ? 1
+				: Integer.parseInt(contentRetrieverProperties.getMaxResults());
+		double minScore = contentRetrieverProperties.getMinScore() == null ? 0.6
+				: Double.parseDouble(contentRetrieverProperties.getMinScore());
 
-        return EmbeddingStoreContentRetriever.builder()
-                .embeddingStore(embeddingStore)
-                .embeddingModel(embeddingModel)
-                .maxResults(maxResults)
-                .minScore(minScore)
-                .build();
-    }
+		return EmbeddingStoreContentRetriever.builder()
+			.embeddingStore(embeddingStore)
+			.embeddingModel(embeddingModel)
+			.maxResults(maxResults)
+			.minScore(minScore)
+			.build();
+	}
 
-    @Bean
-    @ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue = "true")
-    EmbeddingModel embeddingModel() {
-        return new AllMiniLmL6V2EmbeddingModel();
-    }
+	@Bean
+	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue = "true")
+	EmbeddingModel embeddingModel() {
+		return new AllMiniLmL6V2EmbeddingModel();
+	}
 
-    @Bean
-    @ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue = "true")
-    EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader,
-                                               Properties properties) throws IOException {
-        Properties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriver();
-        EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
+	@Bean
+	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue = "true")
+	EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader,
+			LocalProperties properties) throws IOException {
+		LocalProperties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriver();
+		EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
 
-        Resource resource = resourceLoader.getResource(contentRetrieverProperties.getContentPath());
-        Document document = loadDocument(resource.getFile().toPath(), new TextDocumentParser());
+		Resource resource = resourceLoader.getResource(contentRetrieverProperties.getContentPath());
+		Document document = loadDocument(resource.getFile().toPath(), new TextDocumentParser());
 
-        DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new OpenAiTokenizer(GPT_3_5_TURBO));
-        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
-                .documentSplitter(documentSplitter)
-                .embeddingModel(embeddingModel)
-                .embeddingStore(embeddingStore)
-                .build();
-        ingestor.ingest(document);
+		DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new OpenAiTokenizer(GPT_3_5_TURBO));
+		EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+			.documentSplitter(documentSplitter)
+			.embeddingModel(embeddingModel)
+			.embeddingStore(embeddingStore)
+			.build();
+		ingestor.ingest(document);
 
-        return embeddingStore;
-    }
+		return embeddingStore;
+	}
 
 }
