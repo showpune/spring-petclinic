@@ -37,23 +37,17 @@ public class OwnerTools {
 		this.owners = clinicService;
 	}
 
-	@Tool(value = { "Query the owners by name, include their pets and visit record" })
+	@Tool(value = {
+			"Query the owners by name, the owner information include owner id, address, telephone, city, first name and last name",
+			"The owner also include the pets information, include the pet name, pet type and birth",
+			"The pet include serveral visit record, include the visit name and visit date" })
 	List<Owner> queryOwners(String name) {
 		Pageable pageable = PageRequest.of(0, 5);
 		return owners.findByLastName(name, pageable).toList();
 	}
 
-	@Tool(value = { "Query the pet by owner id" })
-	List<Pet> listPetByOwnerId(int ownerId) {
-		Owner owner = this.owners.findById(ownerId);
-		if (owner == null) {
-			throw new IllegalArgumentException("Owner ID not found: " + ownerId);
-		}
-		return owner.getPets();
-	}
-
-	@Tool(value = { "Create a new owner by inputting firstName, lastName, address, telephone and city" })
-	public void addOwner(String address, String telephone, String city, String firstName, String lastName) {
+	@Tool(value = { "Create a new owner by inputting the owner's firstName, lastName, address, telephone and city" })
+	public Owner addOwner(String address, String telephone, String city, String firstName, String lastName) {
 		Owner owner = new Owner();
 		owner.setAddress(address);
 		owner.setTelephone(telephone);
@@ -61,6 +55,7 @@ public class OwnerTools {
 		owner.setLastName(lastName);
 		owner.setFirstName(firstName);
 		this.owners.save(owner);
+		return owner;
 	}
 
 	@Tool(value = { "return all pairs of pet type id and pet type name" })

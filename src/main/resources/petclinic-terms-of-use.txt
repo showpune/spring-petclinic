@@ -1,21 +1,13 @@
-Pet Clinic Terms of Use
+Pet clinic Terms of Use
 
-1. Introduction
-Petclinic
+1. Vets
+2.1 Query all vets and their specialty, the specialty can be used to recommend a vets according to the pet problem.
 
-3. Vets
-3.1 Customer can query all vets and they specialty
+2. Owners
+2.1 Owner is the petclinic customer
+2.2 Query all the owners information, the owner information include the owner id, first name, last name city, telephone, address and their pets
+2.3 Can add an owner by inputting first name, last name, city, telephone and address, the information is provided by the owner
 
-4. Owners
-4.1 Owner is the customer
-4.2 Owner information include the ownerid, city, telephone and address
-4.1 Can query all the owners
-4.2 Can add an owner by input ownerid, city, telephone and address
-
-5. Pets
-5.1 Can list all the pets by the ownerid
-5.2 Can add a pet by input the ownerid, pet name, pet type, the pet type should be one cat,dog,lizard,snake,bird and hamster
-
-6. Visit
-6.1 Can list all the visit by the pet id
+3. Pets
+3.1 Can add a pet by input the owner id, pet name, pet type, the pet type should be one cat,dog,lizard,snake,bird and hamster
 
