@@ -46,7 +46,7 @@ public class OwnerTools {
 		return owners.findByLastName(name, pageable).toList();
 	}
 
-	@Tool(value = { "Create a new owner by inputting the owner's firstName, lastName, address, telephone and city" })
+	@Tool(value = {"Create a new owner by providing the owner's firstName, lastName, address, telephone and city"})
 	public Owner addOwner(String address, String telephone, String city, String firstName, String lastName) {
 		Owner owner = new Owner();
 		owner.setAddress(address);
@@ -54,6 +54,29 @@ public class OwnerTools {
 		owner.setCity(city);
 		owner.setLastName(lastName);
 		owner.setFirstName(firstName);
+		this.owners.save(owner);
+		return owner;
+	}
+
+	@Tool(value = {"update a owner's firstName, lastName, address, telephone and city by providing the owner id"})
+	public Owner updateOwner(String ownerId, String address, String telephone, String city, String firstName, String lastName) {
+		Owner owner = owners.findById(Integer.parseInt(ownerId));
+		if (address != null) {
+			owner.setAddress(address);
+		}
+		if (telephone != null) {
+			owner.setTelephone(telephone);
+		}
+		if (city != null) {
+			owner.setCity(city);
+		}
+		if (lastName != null) {
+			owner.setLastName(lastName);
+		}
+		if (firstName != null) {
+			owner.setFirstName(firstName);
+		}
+
 		this.owners.save(owner);
 		return owner;
 	}

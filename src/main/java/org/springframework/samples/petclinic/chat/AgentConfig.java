@@ -46,27 +46,27 @@ public class AgentConfig {
 
 	@Bean
 	Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel, ChatMemoryProvider chatMemoryProvider,
-			VetTools VetTools, OwnerTools OwnerTools, RetrievalAugmentor retrievalAugmentor) {
+			VetTools VetTools, OwnerTools OwnerTools) {
 		return AiServices.builder(Agent.class)
 			.chatLanguageModel(chatLanguageModel)
 			.tools(VetTools, OwnerTools)
 			.chatMemoryProvider(chatMemoryProvider)
-			.retrievalAugmentor(retrievalAugmentor)
+//			.retrievalAugmentor(retrievalAugmentor)
 			.build();
 	}
 
-	@Bean
-	RetrievalAugmentor retrievalAugmentor(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever) {
-		String expandString = ExpandingQueryTransformer.DEFAULT_PROMPT_TEMPLATE.template()
-				+ "\n All must returned by English";
-		ExpandingQueryTransformer expandingQueryTransformer = ExpandingQueryTransformer.builder()
-			.chatLanguageModel(chatLanguageModel)
-			.promptTemplate(PromptTemplate.from(expandString))
-			.build();
-		return DefaultRetrievalAugmentor.builder()
-			.contentRetriever(ensureNotNull(contentRetriever, "contentRetriever"))
-			.queryTransformer(expandingQueryTransformer)
-			.build();
-	}
+//	@Bean
+//	RetrievalAugmentor retrievalAugmentor(ChatLanguageModel chatLanguageModel, ContentRetriever contentRetriever) {
+//		String expandString = ExpandingQueryTransformer.DEFAULT_PROMPT_TEMPLATE.template()
+//				+ "\n All must returned by English";
+//		ExpandingQueryTransformer expandingQueryTransformer = ExpandingQueryTransformer.builder()
+//			.chatLanguageModel(chatLanguageModel)
+//			.promptTemplate(PromptTemplate.from(expandString))
+//			.build();
+//		return DefaultRetrievalAugmentor.builder()
+//			.contentRetriever(ensureNotNull(contentRetriever, "contentRetriever"))
+//			.queryTransformer(expandingQueryTransformer)
+//			.build();
+//	}
 
 }
