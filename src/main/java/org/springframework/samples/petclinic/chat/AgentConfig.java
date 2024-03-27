@@ -22,28 +22,6 @@ import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
 public class AgentConfig {
 
 	@Bean
-	@ConditionalOnProperty(OpenAIProperties.PREFIX + ".chat-model.api-key")
-	AzureOpenAiChatModel openAiChatModel(OpenAIProperties properties) {
-		ChatModelProperties chatModelProperties = properties.getChatModel();
-		return AzureOpenAiChatModel.builder()
-			.endpoint(chatModelProperties.getEndpoint())
-			.apiKey(chatModelProperties.getApiKey())
-			.deploymentName(chatModelProperties.getDeploymentName())
-			.temperature(chatModelProperties.getTemperature())
-			.topP(chatModelProperties.getTopP())
-			.stop(chatModelProperties.getStop())
-			.maxTokens(chatModelProperties.getMaxTokens())
-			.presencePenalty(chatModelProperties.getPresencePenalty())
-			.frequencyPenalty(chatModelProperties.getFrequencyPenalty())
-			.timeout(chatModelProperties.getTimeout())
-			.maxRetries(chatModelProperties.getMaxRetries())
-			.proxyOptions(ProxyOptions.fromConfiguration(com.azure.core.util.Configuration.getGlobalConfiguration()))
-			.logRequestsAndResponses(chatModelProperties.getLogRequestsAndResponses() != null
-					&& chatModelProperties.getLogRequestsAndResponses())
-			.build();
-	}
-
-	@Bean
 	Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel,
 									  ChatMemoryProvider chatMemoryProvider,
 									  RetrievalAugmentor retrievalAugmentor,
@@ -55,6 +33,17 @@ public class AgentConfig {
 				.chatMemoryProvider(chatMemoryProvider)
 				.retrievalAugmentor(retrievalAugmentor)
 				.build();
+	}
+
+	@Bean
+	@ConditionalOnProperty(OpenAIProperties.PREFIX + ".chat-model.api-key")
+	AzureOpenAiChatModel openAiChatModel(OpenAIProperties properties) {
+		ChatModelProperties chatModelProperties = properties.getChatModel();
+		return AzureOpenAiChatModel.builder()
+			.endpoint(chatModelProperties.getEndpoint())
+			.apiKey(chatModelProperties.getApiKey())
+			.deploymentName(chatModelProperties.getDeploymentName())
+			.build();
 	}
 
 	@Bean
