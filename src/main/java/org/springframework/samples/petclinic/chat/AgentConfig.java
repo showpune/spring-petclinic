@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.chat;
 
 import com.azure.core.http.ProxyOptions;
 import dev.langchain4j.memory.chat.ChatMemoryProvider;
-import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.azure.AzureOpenAiChatModel;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.input.PromptTemplate;
@@ -45,30 +44,33 @@ public class AgentConfig {
 	}
 
 	@Bean
-	Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel, ChatMemoryProvider chatMemoryProvider,
-			VetTools VetTools, OwnerTools OwnerTools) {
+	Agent configurePetclinicChatAgent(ChatLanguageModel chatLanguageModel,
+									  ChatMemoryProvider chatMemoryProvider,
+									  RetrievalAugmentor retrievalAugmentor,
+									  VetTools VetTools,
+									  OwnerTools OwnerTools) {
 		return AiServices.builder(Agent.class)
-			.chatLanguageModel(chatLanguageModel)
-			.tools(VetTools, OwnerTools)
-			.chatMemoryProvider(chatMemoryProvider)
-			// .retrievalAugmentor(retrievalAugmentor)
-			.build();
+				.chatLanguageModel(chatLanguageModel)
+				.tools(VetTools, OwnerTools)
+				.chatMemoryProvider(chatMemoryProvider)
+				.retrievalAugmentor(retrievalAugmentor)
+				.build();
 	}
 
-	// @Bean
-	// RetrievalAugmentor retrievalAugmentor(ChatLanguageModel chatLanguageModel,
-	// ContentRetriever contentRetriever) {
-	// String expandString = ExpandingQueryTransformer.DEFAULT_PROMPT_TEMPLATE.template()
-	// + "\n All must returned by English";
-	// ExpandingQueryTransformer expandingQueryTransformer =
-	// ExpandingQueryTransformer.builder()
-	// .chatLanguageModel(chatLanguageModel)
-	// .promptTemplate(PromptTemplate.from(expandString))
-	// .build();
-	// return DefaultRetrievalAugmentor.builder()
-	// .contentRetriever(ensureNotNull(contentRetriever, "contentRetriever"))
-	// .queryTransformer(expandingQueryTransformer)
-	// .build();
-	// }
+	@Bean
+	RetrievalAugmentor retrievalAugmentor(ChatLanguageModel chatLanguageModel,
+										  ContentRetriever contentRetriever) {
+		String expandString = ExpandingQueryTransformer.DEFAULT_PROMPT_TEMPLATE.template()
+				+ "\n All must returned by English";
+		ExpandingQueryTransformer expandingQueryTransformer =
+				ExpandingQueryTransformer.builder()
+						.chatLanguageModel(chatLanguageModel)
+						.promptTemplate(PromptTemplate.from(expandString))
+						.build();
+		return DefaultRetrievalAugmentor.builder()
+				.contentRetriever(ensureNotNull(contentRetriever, "contentRetriever"))
+				.queryTransformer(expandingQueryTransformer)
+				.build();
+	}
 
 }

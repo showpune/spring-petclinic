@@ -45,61 +45,61 @@ public class AutoConfig {
 			.chatMemoryStore(store)
 			.build();
 	}
-	//
-	// @Bean
-	// @ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
-	// "true")
-	// ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore,
-	// EmbeddingModel embeddingModel,
-	// LocalProperties properties) {
-	//
-	// LocalProperties.ContentRetrieverProperties contentRetrieverProperties =
-	// properties.getContentRetriver();
-	// int maxResults = contentRetrieverProperties.getMaxResults() == null ? 1
-	// : Integer.parseInt(contentRetrieverProperties.getMaxResults());
-	// double minScore = contentRetrieverProperties.getMinScore() == null ? 0.6
-	// : Double.parseDouble(contentRetrieverProperties.getMinScore());
-	//
-	// return EmbeddingStoreContentRetriever.builder()
-	// .embeddingStore(embeddingStore)
-	// .embeddingModel(embeddingModel)
-	// .maxResults(maxResults)
-	// .minScore(minScore)
-	// .build();
-	// }
-	//
-	// @Bean
-	// @ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
-	// "true")
-	// EmbeddingModel embeddingModel() {
-	// return new AllMiniLmL6V2EmbeddingModel();
-	// }
-	//
-	// @Bean
-	// @ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
-	// "true")
-	// EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel,
-	// ResourceLoader resourceLoader,
-	// LocalProperties properties) throws IOException {
-	// LocalProperties.ContentRetrieverProperties contentRetrieverProperties =
-	// properties.getContentRetriver();
-	// EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-	//
-	// Resource resource =
-	// resourceLoader.getResource(contentRetrieverProperties.getContentPath());
-	// Document document = loadDocument(resource.getFile().toPath(), new
-	// TextDocumentParser());
-	//
-	// DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new
-	// OpenAiTokenizer(GPT_3_5_TURBO));
-	// EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
-	// .documentSplitter(documentSplitter)
-	// .embeddingModel(embeddingModel)
-	// .embeddingStore(embeddingStore)
-	// .build();
-	// ingestor.ingest(document);
-	//
-	// return embeddingStore;
-	// }
+
+	@Bean
+	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
+			"true")
+	ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore,
+									  EmbeddingModel embeddingModel,
+									  LocalProperties properties) {
+
+		LocalProperties.ContentRetrieverProperties contentRetrieverProperties =
+				properties.getContentRetriver();
+		int maxResults = contentRetrieverProperties.getMaxResults() == null ? 1
+				: Integer.parseInt(contentRetrieverProperties.getMaxResults());
+		double minScore = contentRetrieverProperties.getMinScore() == null ? 0.6
+				: Double.parseDouble(contentRetrieverProperties.getMinScore());
+
+		return EmbeddingStoreContentRetriever.builder()
+				.embeddingStore(embeddingStore)
+				.embeddingModel(embeddingModel)
+				.maxResults(maxResults)
+				.minScore(minScore)
+				.build();
+	}
+
+	@Bean
+	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
+			"true")
+	EmbeddingModel embeddingModel() {
+		return new AllMiniLmL6V2EmbeddingModel();
+	}
+
+	@Bean
+	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
+			"true")
+	EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel,
+											   ResourceLoader resourceLoader,
+											   LocalProperties properties) throws IOException {
+		LocalProperties.ContentRetrieverProperties contentRetrieverProperties =
+				properties.getContentRetriver();
+		EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
+
+		Resource resource =
+				resourceLoader.getResource(contentRetrieverProperties.getContentPath());
+		Document document = loadDocument(resource.getFile().toPath(), new
+				TextDocumentParser());
+
+		DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new
+				OpenAiTokenizer(GPT_3_5_TURBO));
+		EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+				.documentSplitter(documentSplitter)
+				.embeddingModel(embeddingModel)
+				.embeddingStore(embeddingStore)
+				.build();
+		ingestor.ingest(document);
+
+		return embeddingStore;
+	}
 
 }
