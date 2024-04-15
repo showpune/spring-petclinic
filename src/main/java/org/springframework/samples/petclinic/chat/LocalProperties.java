@@ -13,7 +13,7 @@ public class LocalProperties {
 	static final String PREFIX = "langchain4j.local.spring";
 
 	@NestedConfigurationProperty
-	ContentRetrieverProperties contentRetriver;
+	ContentRetrieverProperties contentRetriever;
 
 	@NestedConfigurationProperty
 	LocalMemoryProperties memory;
