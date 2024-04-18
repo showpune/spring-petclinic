@@ -48,11 +48,9 @@ public class AutoConfig {
 	}
 
 	@Bean
-	@ConditionalOnProperty(name = PREFIX + ".content-retriever.use-local", havingValue =
-			"true")
-	ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore,
-									  EmbeddingModel embeddingModel,
-									  LocalProperties properties) {
+	@ConditionalOnProperty(name = PREFIX + ".content-retriever.use-local", havingValue = "true")
+	ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore, EmbeddingModel embeddingModel,
+			LocalProperties properties) {
 
 		LocalProperties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriever();
 		int maxResults = contentRetrieverProperties.getMaxResults() == null ? 1
@@ -61,11 +59,11 @@ public class AutoConfig {
 				: Double.parseDouble(contentRetrieverProperties.getMinScore());
 
 		return EmbeddingStoreContentRetriever.builder()
-				.embeddingStore(embeddingStore)
-				.embeddingModel(embeddingModel)
-				.maxResults(maxResults)
-				.minScore(minScore)
-				.build();
+			.embeddingStore(embeddingStore)
+			.embeddingModel(embeddingModel)
+			.maxResults(maxResults)
+			.minScore(minScore)
+			.build();
 	}
 
 	@Bean
@@ -75,26 +73,21 @@ public class AutoConfig {
 	}
 
 	@Bean
-	@ConditionalOnProperty(name = PREFIX + ".content-retriever.use-local", havingValue =
-			"true")
-	EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel,
-											   ResourceLoader resourceLoader,
-											   LocalProperties properties) throws IOException {
+	@ConditionalOnProperty(name = PREFIX + ".content-retriever.use-local", havingValue = "true")
+	EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader,
+			LocalProperties properties) throws IOException {
 		LocalProperties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriever();
 		EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
 
-		Resource resource =
-				resourceLoader.getResource(contentRetrieverProperties.getContentPath());
-		Document document = loadDocument(resource.getFile().toPath(), new
-				TextDocumentParser());
+		Resource resource = resourceLoader.getResource(contentRetrieverProperties.getContentPath());
+		Document document = loadDocument(resource.getFile().toPath(), new TextDocumentParser());
 
-		DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new
-				OpenAiTokenizer(GPT_3_5_TURBO));
+		DocumentSplitter documentSplitter = DocumentSplitters.recursive(100, 0, new OpenAiTokenizer(GPT_3_5_TURBO));
 		EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
-				.documentSplitter(documentSplitter)
-				.embeddingModel(embeddingModel)
-				.embeddingStore(embeddingStore)
-				.build();
+			.documentSplitter(documentSplitter)
+			.embeddingModel(embeddingModel)
+			.embeddingStore(embeddingStore)
+			.build();
 		ingestor.ingest(document);
 
 		return embeddingStore;
