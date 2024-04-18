@@ -9,7 +9,7 @@ public interface Agent {
 
 	String USER_PROMPT = "The Customer Name is {{username}}";
 
-	@SystemMessage({SYSTEM_PROMPT, USER_PROMPT})
+	@SystemMessage({ SYSTEM_PROMPT, USER_PROMPT })
 	String chat(@UserMessage String message, @MemoryId @UserName @V("username") String username);
 
 }

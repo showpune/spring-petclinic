@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -47,14 +48,13 @@ public class AutoConfig {
 	}
 
 	@Bean
-	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
+	@ConditionalOnProperty(name = PREFIX + ".content-retriever.use-local", havingValue =
 			"true")
 	ContentRetriever contentRetriever(EmbeddingStore<TextSegment> embeddingStore,
 									  EmbeddingModel embeddingModel,
 									  LocalProperties properties) {
 
-		LocalProperties.ContentRetrieverProperties contentRetrieverProperties =
-				properties.getContentRetriver();
+		LocalProperties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriever();
 		int maxResults = contentRetrieverProperties.getMaxResults() == null ? 1
 				: Integer.parseInt(contentRetrieverProperties.getMaxResults());
 		double minScore = contentRetrieverProperties.getMinScore() == null ? 0.6
@@ -69,20 +69,18 @@ public class AutoConfig {
 	}
 
 	@Bean
-	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
-			"true")
+	@ConditionalOnProperty(name = PREFIX + ".content-retriever.use-local", havingValue = "true")
 	EmbeddingModel embeddingModel() {
 		return new AllMiniLmL6V2EmbeddingModel();
 	}
 
 	@Bean
-	@ConditionalOnProperty(name = PREFIX + ".content-retriver.use-local", havingValue =
+	@ConditionalOnProperty(name = PREFIX + ".content-retriever.use-local", havingValue =
 			"true")
 	EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel,
 											   ResourceLoader resourceLoader,
 											   LocalProperties properties) throws IOException {
-		LocalProperties.ContentRetrieverProperties contentRetrieverProperties =
-				properties.getContentRetriver();
+		LocalProperties.ContentRetrieverProperties contentRetrieverProperties = properties.getContentRetriever();
 		EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
 
 		Resource resource =
