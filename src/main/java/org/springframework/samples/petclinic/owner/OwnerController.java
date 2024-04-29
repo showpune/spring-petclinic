@@ -15,8 +15,8 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,6 +52,8 @@ class OwnerController {
 	public OwnerController(OwnerRepository clinicService) {
 		this.owners = clinicService;
 	}
+
+	private LinkedList cache = new LinkedList();
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -89,7 +91,7 @@ class OwnerController {
 
 	@GetMapping("/owners")
 	public String processFindForm(@RequestParam(defaultValue = "1") int page, Owner owner, BindingResult result,
-			Model model) {
+			Model model) throws InterruptedException {
 		// allow parameterless GET request for /owners to return all records
 		if (owner.getLastName() == null) {
 			owner.setLastName(""); // empty string signifies broadest possible search
@@ -122,14 +124,28 @@ class OwnerController {
 		return "owners/ownersList";
 	}
 
-	private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname) {
+	private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname) throws InterruptedException {
 		int pageSize = 5;
+
 		Pageable pageable = PageRequest.of(page - 1, pageSize);
-		return owners.findByLastName(lastname, pageable);
+		Page<Owner> result = owners.findByLastName(lastname, pageable);
+		result = owners.findByLastName(lastname, pageable);
+		result = owners.findByLastName(lastname, pageable);
+		Thread.sleep(500);
+		synchronized (cache) {
+			if (cache.size() < 3000) {
+				cache.add(result);
+			}
+			else {
+				cache.removeLast();
+				cache.add(result);
+			}
+		}
+		return result;
 	}
 
 	@GetMapping("/owners/{ownerId}/edit")
-	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
+	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) throws InterruptedException {
 		Owner owner = this.owners.findById(ownerId);
 		model.addAttribute(owner);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
@@ -155,9 +171,22 @@ class OwnerController {
 	 * @return a ModelMap with the model attributes for the view
 	 */
 	@GetMapping("/owners/{ownerId}")
-	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
+	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) throws InterruptedException {
 		ModelAndView mav = new ModelAndView("owners/ownerDetails");
-		Owner owner = this.owners.findById(ownerId);
+		Owner owner = null;
+		Thread.sleep(300);
+		for (int i = 0; i < 10; i++) {
+			owner = this.owners.findById(ownerId);
+			synchronized (cache) {
+				if (cache.size() < 3000) {
+					cache.add(owner);
+				}
+				else {
+					cache.removeLast();
+					cache.add(owner);
+				}
+			}
+		}
 		mav.addObject(owner);
 		return mav;
 	}

@@ -1,0 +1,7 @@
+docker run -m 1g --cpus=".5" -e "JAVA_TOOL_OPTIONS=-Xlog:gc*,gc+ref=debug,gc+phases=debug,gc+age=trace,safepoint:file=/tmp/gc.log -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.rmi.port=9010 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -XX:StartFlightRecording=filename=/tmp/myrecording.jfr,disk=true,dumponexit=true" -v /mnt/c/temp:/tmp -p 9090:8080 -p 9010:9010 showpune/spring-petclinic:performancetest
+
+docker run -m 1g --cpus=".5" -e "JAVA_TOOL_OPTIONS=-Xlog:gc*,gc+ref=debug,gc+phases=debug,gc+age=trace,safepoint:file=/tmp/gc.log -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.rmi.port=9010 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1" -v /mnt/c/temp:/tmp -p 9090:8080 -p 9010:9010 showpune/spring-petclinic:performancetest
+
+docker run -m 1g --cpus="1" -e "JAVA_TOOL_OPTIONS=-Xlog:gc*,gc+ref=debug,gc+phases=debug,gc+age=trace,safepoint:file=/tmp/gc.log -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.rmi.port=9010 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -XX:ActiveProcessorCount=2" -v /mnt/c/temp/work:/tmp -p 9090:8080 -p 9010:9010 showpune/spring-petclinic:performancetest
+
+

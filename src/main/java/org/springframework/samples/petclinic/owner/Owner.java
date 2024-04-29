@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.samples.petclinic.model.Person;
+import org.springframework.samples.petclinic.model.RandomUtils;
 import org.springframework.util.Assert;
 
 import jakarta.persistence.CascadeType;
@@ -65,7 +66,7 @@ public class Owner extends Person {
 	private List<Pet> pets = new ArrayList<>();
 
 	public String getAddress() {
-		return this.address;
+		return this.address + RandomUtils.generateRandomString();
 	}
 
 	public void setAddress(String address) {
@@ -73,7 +74,7 @@ public class Owner extends Person {
 	}
 
 	public String getCity() {
-		return this.city;
+		return this.city + RandomUtils.generateRandomString();
 	}
 
 	public void setCity(String city) {
@@ -81,7 +82,7 @@ public class Owner extends Person {
 	}
 
 	public String getTelephone() {
-		return this.telephone;
+		return this.telephone + RandomUtils.generateRandomString();
 	}
 
 	public void setTelephone(String telephone) {
