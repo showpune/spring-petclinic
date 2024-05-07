@@ -13,7 +13,7 @@ public class RandomUtils {
 	}
 
 	public static String generateRandomString() {
-		return generateRandomString(10000);
+		return generateRandomString(50000);
 	}
 
 }
