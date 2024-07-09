@@ -23,6 +23,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -69,7 +72,15 @@ class PetController {
 	}
 
 	@GetMapping("/pets/new")
-	public String initCreationForm(Owner owner, ModelMap model) {
+	public String initCreationForm(Owner owner, ModelMap model) throws IOException {
+		try {
+			File file = new File("/data/data.txt");
+			FileWriter writer = new FileWriter(file);
+			writer.write("Hello, World!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		model.put("pet", pet);

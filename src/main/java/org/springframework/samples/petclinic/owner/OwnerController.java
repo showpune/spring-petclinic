@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +85,13 @@ class OwnerController {
 	@GetMapping("/owners/find")
 	public String initFindForm(Map<String, Object> model) {
 		model.put("owner", new Owner());
+		try {
+			File file = new File("c:/temp/data.txt");
+			FileWriter writer = new FileWriter(file);
+			writer.write("Hello World windows!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "owners/findOwners";
 	}
 
