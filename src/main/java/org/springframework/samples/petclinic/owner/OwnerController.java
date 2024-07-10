@@ -73,6 +73,8 @@ class OwnerController {
 
 	@PostMapping("/owners/new")
 	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+		String envVariables = System.getenv("ENV_VARIABLES");
+		System.out.println("ENV_VARIABLES: " + envVariables);
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 		}
