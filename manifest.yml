@@ -1,10 +1,10 @@
 applications:
 - name: spring-petclinic
-  memory: 1G
-  instances: 1
+  memory: 4G
+  instances: 2
   env:
     spring.profiles.active: mysql
-    database.connection-string: 'jdbc:mysql://localhost:3306/your-database?user=username&password=password'
+    database.connection-string: 'jdbc:mysql://migration-spring-petclinic.mysql.database.azure.com:3306/petclinic?serverTimezone=UTC&sslmode=required&user=migrationuser&password=petclinicpassword'
     MOUNT_PATH: /mnt/nfs
   volume_mounts:
     - driver: nfs
