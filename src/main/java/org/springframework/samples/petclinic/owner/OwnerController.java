@@ -15,13 +15,6 @@
  */
 package org.springframework.samples.petclinic.owner;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,13 +22,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Juergen Hoeller
@@ -87,13 +79,6 @@ class OwnerController {
 	@GetMapping("/owners/find")
 	public String initFindForm(Map<String, Object> model) {
 		model.put("owner", new Owner());
-		try {
-			File file = new File("c:/temp/data.txt");
-			FileWriter writer = new FileWriter(file);
-			writer.write("Hello World windows!");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return "owners/findOwners";
 	}
 
