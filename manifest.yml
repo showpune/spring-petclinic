@@ -4,7 +4,7 @@ applications:
   instances: 1
   env:
     spring.profiles.active: mysql
-    database.connection-string: 'jdbc:mysql://migration-spring-petclinic.mysql.database.azure.com:3306/petclinic?serverTimezone=UTC&sslmode=required&user=migrationuser&password=petclinicpassword'
+    database.connection-string: 'jdbc:mysql://on-premises.company.com:3306/petclinic?user=migrationuser&password=petclinicpassword'
   volume_mounts:
     - driver: nfs
       container_dir: /data
