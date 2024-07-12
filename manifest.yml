@@ -1,6 +1,6 @@
 applications:
 - name: spring-petclinic
-  memory: 4G
+  memory: 4Gi
   instances: 1
   env:
     spring.profiles.active: mysql
@@ -10,4 +10,4 @@ applications:
       container_dir: /data
       mode: rw
       device:
-        volume_id: my-nfs-service
+        volume_id: data
