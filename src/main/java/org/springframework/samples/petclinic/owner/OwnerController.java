@@ -88,9 +88,11 @@ class OwnerController {
 	public String initFindForm(Map<String, Object> model) {
 		model.put("owner", new Owner());
 		try {
-			File file = new File("c:/temp/data.txt");
+			File file = new File("/mnt/nfs/data.txt");
 			FileWriter writer = new FileWriter(file);
-			writer.write("Hello World windows!");
+			String content = "Hello, " + System.getenv("USER_NAME") + "!\n";
+			writer.write(content);
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
