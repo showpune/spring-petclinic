@@ -32,13 +32,13 @@ class WelcomeController {
 	public String welcome(Map<String, Object> model) {
 
 		try {
-			model.put("username", "Welcome " + System.getenv("userName"));
+			model.put("userName", "Welcome " + System.getenv("USER_NAME"));
 			File file = new File("/data/mount.txt");
 			if (file.exists()) {
 				String content = Files.readString(Path.of(file.getAbsolutePath()));
-				model.put("mountfilecontent", content);
-			}else{
-				model.put("mountfilecontent", "No mount file found");
+				model.put("mountFileContent", "Mounted Content: " + content);
+			} else {
+				model.put("mountFileContent", "No mount file found");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -87,15 +87,6 @@ class OwnerController {
 	@GetMapping("/owners/find")
 	public String initFindForm(Map<String, Object> model) {
 		model.put("owner", new Owner());
-		try {
-			File file = new File("/mnt/nfs/data.txt");
-			FileWriter writer = new FileWriter(file);
-			String content = "Hello, " + System.getenv("USER_NAME") + "!\n";
-			writer.write(content);
-			writer.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return "owners/findOwners";
 	}
 
