@@ -8,6 +8,5 @@ applications:
   volume_mounts:
     - driver: nfs
       container_dir: /data
-      mode: rw
       device:
         volume_id: data
