@@ -16,6 +16,7 @@
 
 package org.springframework.samples.petclinic.system;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -28,12 +29,18 @@ import java.util.Map;
 @Controller
 class WelcomeController {
 
+	@Value("${app.welcome-message}")
+	private String welcomeMsg;
+
+	@Value("${app.mount-path}")
+	private String mountPath;
+
 	@GetMapping("/")
 	public String welcome(Map<String, Object> model) {
 
 		try {
-			model.put("userName", "Welcome " + System.getenv("USER_NAME"));
-			File file = new File("/data/mount.txt");
+			model.put("userName", "Welcome " + welcomeMsg);
+			File file = new File(mountPath + "/mount.txt");
 			if (file.exists()) {
 				String content = Files.readString(Path.of(file.getAbsolutePath()));
 				model.put("mountFileContent", "Mounted Content: " + content);
