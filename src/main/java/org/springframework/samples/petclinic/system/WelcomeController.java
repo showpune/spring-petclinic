@@ -16,6 +16,12 @@
 
 package org.springframework.samples.petclinic.system;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -23,7 +29,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 class WelcomeController {
 
 	@GetMapping("/")
-	public String welcome() {
+	public String welcome(Map<String, Object> model) {
+		try {
+			model.put("userName", "Welcome " + System.getenv("USER_NAME"));
+			File file = new File("/data/mount.txt");
+			if (file.exists()) {
+				String content = Files.readString(Path.of(file.getAbsolutePath()));
+				model.put("mountFileContent", "Mounted Content: " + content);
+			}
+			else {
+				model.put("mountFileContent", "No mount file found");
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 		return "welcome";
 	}
 
