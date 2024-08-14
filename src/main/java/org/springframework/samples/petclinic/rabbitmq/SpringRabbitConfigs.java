@@ -1,11 +1,11 @@
 package org.springframework.samples.petclinic.rabbitmq;
 
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+// import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+// import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+// import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
+// import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+// import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,27 +34,27 @@ public class SpringRabbitConfigs {
 		return new Binding(QUEUE_NAME, Binding.DestinationType.QUEUE, EXCHANGE_NAME, "", null);
 	}
 
-	@Bean
-	public ConnectionFactory connectionFactory() {
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
-		connectionFactory.setUsername("guest");
-		connectionFactory.setPassword("guest");
-		return connectionFactory;
-	}
+	// @Bean
+	// public ConnectionFactory connectionFactory() {
+	// 	CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
+	// 	connectionFactory.setUsername("guest");
+	// 	connectionFactory.setPassword("guest");
+	// 	return connectionFactory;
+	// }
 
-	@Bean
-	public MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory, Queue queue,
-			MessageListenerAdapter messageListener) {
-		SimpleMessageListenerContainer messageListenerContainer = new SimpleMessageListenerContainer();
-		messageListenerContainer.setConnectionFactory(connectionFactory);
-		messageListenerContainer.setQueues(queue);
-		messageListenerContainer.setMessageListener(messageListener);
-		return messageListenerContainer;
-	}
+	// @Bean
+	// public MessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory, Queue queue,
+	// 		MessageListenerAdapter messageListener) {
+	// 	SimpleMessageListenerContainer messageListenerContainer = new SimpleMessageListenerContainer();
+	// 	messageListenerContainer.setConnectionFactory(connectionFactory);
+	// 	messageListenerContainer.setQueues(queue);
+	// 	messageListenerContainer.setMessageListener(messageListener);
+	// 	return messageListenerContainer;
+	// }
 
-	@Bean
-	MessageListenerAdapter listenerAdapter(Receiver receiver) {
-		return new MessageListenerAdapter(receiver, "receiveMessage");
-	}
+	// @Bean
+	// MessageListenerAdapter listenerAdapter(Receiver receiver) {
+	// 	return new MessageListenerAdapter(receiver, "receiveMessage");
+	// }
 
 }
