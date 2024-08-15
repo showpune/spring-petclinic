@@ -4,7 +4,6 @@ applications:
   instances: 1
   env:
     spring.profiles.active: mysql
-    database.connection-string: 'jdbc:mysql://on-premises.company.com:3306/petclinic?user=migrationuser&password=petclinicpassword'
   volume_mounts:
     - driver: nfs
       container_dir: /data
