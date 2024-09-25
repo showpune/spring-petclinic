@@ -5,13 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.springframework.samples</groupId>
   <artifactId>spring-petclinic</artifactId>
-  <version>3.3.0-SNAPSHOT</version>
+  <version>3.2.0-SNAPSHOT</version>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.3.4</version>
-  <relativePath/>
   </parent>
   <name>petclinic</name>
 
@@ -218,10 +217,31 @@
         <artifactId>native-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <configuration>
+          <from>
+            <image>mcr.microsoft.com/openjdk/jdk:17-mariner</image>
+          </from>
+          <to>
+            <image>showpune/${project.name}-msjib:${git.commit.id}</image>
+          </to>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>build-info</id>
             <!-- Spring Boot Actuator displays build-related information
               if a META-INF/build-info.properties file is present -->
             <goals>
@@ -234,6 +254,25 @@
                 <java.source>${java.version}</java.source>
                 <java.target>${java.version}</java.target>
               </additionalProperties>
+            </configuration>
+          </execution>
+          <execution>
+            <id>buildimage</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build-image</goal>
+            </goals>
+            <configuration>
+              <docker>
+                <host>//./pipe/dockerDesktopLinuxEngine</host>
+              </docker>
+              <image>
+                <name>showpune/${project.name}-msbuildpack:${git.commit.id}</name>
+                <pullPolicy>ALWAYS</pullPolicy>
+                <buildpacks>
+                  <buildpack>gcr.io/paketo-buildpacks/java-azure</buildpack>
+                </buildpacks>
+              </image>
             </configuration>
           </execution>
         </executions>
